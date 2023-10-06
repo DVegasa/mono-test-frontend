@@ -1,0 +1,16 @@
+@use "@/styles/app/colors.scss" as appColors;
+
+.el-table {
+  color: black;
+
+  th.el-table__cell {
+    background-color: #F3F6F9;
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  .cell button {
+    width: 5px;
+    margin-right: 0 !important;
+  }
+}

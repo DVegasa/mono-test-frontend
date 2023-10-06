@@ -1,0 +1,20 @@
+$color-primary: #FF8300;
+$color-info: #00A7DC;
+$color-default: #2E4385;
+$color-success: #00FFA3;
+
+$grad-primary: linear-gradient(180deg, #FF8300 0%, #FF5100 100%);
+$grad-primary-reverse: linear-gradient(180deg, #FF5100 0%, #FF8300 100%);
+$grad-info: linear-gradient(180deg, #00A7DC 0%, #0070D7 100%);
+$grad-info-reverse: linear-gradient(180deg, #0070D7 0%, #00A7DC 100%);
+$grad-default: linear-gradient(180deg, #2E4385 0%, #2E4385 100%);
+$grad-default-reverse: linear-gradient(180deg, #4867C6 0%, #4867C6 100%);
+$grad-aquamarine: linear-gradient(180deg, #00E0F8 0%, #00A5C9 100%);
+$grad-aquamarine-reverse: linear-gradient(180deg,  #00A5C9 0%, #00E0F8 100%);
+
+
+@mixin shadow-outer($color) {
+  -webkit-box-shadow: 0px 0px 6px $color;
+  -moz-box-shadow: 0px 0px 6px $color;
+  box-shadow: 0px 0px 6px $color;
+}

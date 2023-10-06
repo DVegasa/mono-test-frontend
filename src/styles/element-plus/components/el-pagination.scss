@@ -1,0 +1,15 @@
+@use "@/styles/app/colors.scss" as appColors;
+
+.el-pagination {
+  .el-select .el-input {
+    width: 180px;
+  }
+
+  .el-input__inner {
+    text-align: unset;
+  }
+
+  .el-pagination__total {
+    flex: 1;
+  }
+}

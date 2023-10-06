@@ -1,0 +1,18 @@
+@use "@/styles/app/colors.scss" as appColors;
+
+.el-dialog {
+  border-radius: 8px;
+  padding: 8px;
+
+  .el-dialog__title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .el-dialog__body {
+    padding-top: 0;
+  }
+}
+
+.el-dialog__headerbtn {
+}

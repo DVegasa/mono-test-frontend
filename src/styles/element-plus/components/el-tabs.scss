@@ -1,0 +1,16 @@
+@use "@/styles/app/colors.scss" as appColors;
+
+.el-tabs {
+  .el-tabs__nav {
+    padding-bottom: 2px;
+  }
+
+  .el-tabs__item {
+    &:hover {
+      * {
+        color: #008fff !important;
+      }
+    }
+  }
+}
+

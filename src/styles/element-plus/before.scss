@@ -1,0 +1,30 @@
+/*
+Тут переопределяются переменные, из которых потом element-plus сделает варианты (светлые, тёмные).
+Этот файл вставляется ДО обработки element-plus
+ */
+
+@forward 'element-plus/theme-chalk/dark/css-vars.css';
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #3699FF,
+    ),
+    'success': (
+      'base': #59CD90,
+    ),
+    'warning': (
+      'base': #FCA311,
+    ),
+    'danger': (
+      'base': #E3170A,
+    ),
+    'error': (
+      'base': #E3170A,
+    ),
+    'info': (
+      'base': #909399,
+    ),
+  )
+);
+
+@use "element-plus/theme-chalk/src/index.scss" as *;

@@ -1,0 +1,9 @@
+@use "@/styles/app/colors.scss" as appColors;
+
+.el-picker-panel__sidebar {
+  width: 200px;
+}
+
+.el-picker-panel *[slot=sidebar] + .el-picker-panel__body, .el-picker-panel__sidebar + .el-picker-panel__body {
+  margin-left: 200px;
+}

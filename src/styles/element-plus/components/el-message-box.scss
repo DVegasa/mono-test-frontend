@@ -1,0 +1,16 @@
+@use "@/styles/app/colors.scss" as appColors;
+
+.el-message-box {
+  border-radius: 8px;
+  padding: 18px;
+
+  .el-message-box__header {
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  .el-message-box__content {
+    color: black;
+    margin-bottom: 4px;
+  }
+}
