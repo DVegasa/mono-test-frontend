@@ -2,7 +2,7 @@
 
 .el-input {
   //--el-fill-color-blank: #f8f8f8;
-  //border-radius: 6px;
+  border-radius: 0;
 }
 
 
@@ -13,7 +13,7 @@
 .el-input.brand {
   border: none;
   outline: none;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
 
   * {
     border: none;
@@ -22,27 +22,27 @@
   }
 
   & > * {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
   }
 
   &.is-disabled {
     .el-input-group__prepend {
-      background: rgba(0,0,0,0.15);
+      background: rgba(0, 0, 0, 0.15);
     }
 
     .el-input__wrapper {
       box-shadow: none;
-      background: rgba(0,0,0,0.15);
+      background: rgba(0, 0, 0, 0.15);
     }
   }
 
   .el-input-group__prepend {
     padding: 2px 14px;
-    border-right: 1px solid rgba(255,255,255,0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .el-input__inner {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
   }
 }
 

@@ -54,14 +54,13 @@ function isSelected(to) {
 <style scoped lang="scss">
 @import "@/styles/app/colors.scss";
 
-$color-inactive: #726767;
+$color-inactive: #7e7e8a;
 $color-hover: #134074;
 
 .SideMenu {
   height: 100%;
-  width: 80px;
   background-color: white;
-  border-right: 1px solid #e0e0e0;
+  border-right: 1px solid $color-border;
 
   .links {
     padding-top: 12px;

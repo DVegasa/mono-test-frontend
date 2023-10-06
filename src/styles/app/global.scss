@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
 
-$color-bg: #EEF0F8;
+$color-bg: #FFFFFF;
 $color-fg: #000000;
 
 
@@ -54,7 +54,9 @@ img {
 }
 
 .appPage {
-  padding: 20px;
+  h1 {
+    padding: 20px;
+  }
 }
 
 .niceShadow {
