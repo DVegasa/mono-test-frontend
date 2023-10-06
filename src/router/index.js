@@ -1,8 +1,12 @@
 import {routesDashboard} from "@/pages/dashboard/routes";
 import {createRouter, createWebHistory} from "vue-router";
+import {routesClients} from "@/pages/clients/routes";
+import {routesCars} from "@/pages/cars/routes";
 
 const routes = [
-  ...routesDashboard
+  ...routesDashboard,
+  ...routesClients,
+  ...routesCars,
 ];
 
 
@@ -11,11 +15,12 @@ const router = createRouter({
   routes,
 });
 
-export const PAGE_TITLE_SUFFIX = ` - ${import.meta.env?.VITE_APP_NAME}`;
+export const PAGE_TITLE_SUFFIX = `${import.meta.env?.VITE_APP_NAME}`;
 
 router.beforeEach((to, from, next) => {
 
-  document.title = `${to.meta?.pageTitle}` + PAGE_TITLE_SUFFIX;
+  const pageTitle = to?.meta?.pageTitle ?? ''
+  document.title = pageTitle ? pageTitle + ' - ' + PAGE_TITLE_SUFFIX : PAGE_TITLE_SUFFIX;
 
   if (to.path === '/') {
     next('/dashboard')

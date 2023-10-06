@@ -1,6 +1,6 @@
 <template>
-  <div class="PageDashboard appPage">
-    <h1>Дашборд</h1>
+  <div class="PageClients appPage">
+    <h1>Клиенты</h1>
   </div>
 </template>
 
@@ -11,6 +11,6 @@
 
 
 <style scoped lang="scss">
-.PageDashboard {
+.PageClients {
 }
 </style>
