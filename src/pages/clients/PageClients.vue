@@ -6,6 +6,7 @@
       <ClientsList class="list" @client-clicked="(id) => selectedClientId = id"/>
       <div class="detailed">{{ selectedClientId }}</div>
     </div>
+
   </div>
 </template>
 
@@ -24,12 +25,14 @@ const selectedClientId = ref(null);
 .PageClients {
   display: flex;
   flex-direction: column;
+  //position: relative;
 
   .body {
     display: flex;
     flex-direction: row;
     gap: 12px;
-    height: calc($pageBodyHeight - 56px);
+    //height: 100%;
+    flex: 1;
 
     .list {
       width: 560px;

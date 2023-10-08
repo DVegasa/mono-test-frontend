@@ -58,7 +58,6 @@ $color-inactive: #7e7e8a;
 $color-hover: #134074;
 
 .SideMenu {
-  height: 100%;
   background-color: white;
   border-right: 1px solid $color-border;
 

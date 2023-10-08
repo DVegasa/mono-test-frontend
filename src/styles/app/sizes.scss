@@ -2,4 +2,4 @@ $logoSize: 40px;
 $logoPadding: 8px;
 $sideWidth: 85px;
 $pageHeaderHeight: 69px; // Поставлено экспериментальным путём. Зависит от font-size и отступов у H1
-$pageBodyHeight: calc(100vh - $logoSize - $logoPadding - $logoPadding - $pageHeaderHeight);
+$pageBodyHeight: calc(100vh - $logoSize - $logoPadding - $logoPadding);

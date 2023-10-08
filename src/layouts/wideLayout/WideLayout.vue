@@ -67,9 +67,9 @@ import SideMenu from "@/layouts/wideLayout/SideMenu.vue";
     justify-content: stretch;
     flex: 1;
     margin-top: $logoPadding + $logoPadding + $logoSize;
+    position: relative;
 
     .side {
-      height: 100%;
       width: $sideWidth;
       margin-top: $logoPadding + $logoPadding + $logoSize;
       position: fixed;
@@ -80,7 +80,13 @@ import SideMenu from "@/layouts/wideLayout/SideMenu.vue";
 
     .page {
       flex: 1;
+      overflow-y: clip;
+      margin-top: $logoPadding + $logoPadding + $logoSize;
       margin-left: $sideWidth;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
     }
   }
 }

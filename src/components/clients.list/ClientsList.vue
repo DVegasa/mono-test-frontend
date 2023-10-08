@@ -4,23 +4,32 @@
       <el-input v-model="search" placeholder="Поиск по ФИО или телефону"/>
     </div>
 
-    <el-scrollbar
-        style=""
-        :height="css().scrollbarHeightPx"
-    >
-      <div class="clients" v-for="client in 40">
-        <div class="client" @click="emit('client-clicked', 42)">
-          <img src="https://i.pravatar.cc/150?u=fake@pravatar.com" class="logo" height="35" width="35"/>
+    <el-scrollbar class="clients">
+      <div class="client" v-for="client in 40" @click="emit('client-clicked', 42)">
+        <img src="https://i.pravatar.cc/150?u=fake@pravatar.com" class="logo" height="35" width="35"/>
 
-          <div class="body">
-            <div class="name">Иванов Иван Петрович</div>
-            <div class="phone">+79001231234</div>
-          </div>
+        <div class="body">
+          <div class="name">Иванов Иван Петрович</div>
+          <div class="phone">+79001231234</div>
         </div>
       </div>
     </el-scrollbar>
 
-    <div class="footer" :style="{height: `${css().footerHeightPx}px`, bottom: `-${css().footerHeightPx+5}px`}">
+    <!--        <el-scrollbar style="flex: 1">-->
+    <!--        </el-scrollbar>-->
+
+    <!--    <el-scrollbar class="clients">-->
+    <!--      <div class="client" v-for="client in 40" @click="emit('client-clicked', 42)">-->
+    <!--        <img src="https://i.pravatar.cc/150?u=fake@pravatar.com" class="logo" height="35" width="35"/>-->
+
+    <!--        <div class="body">-->
+    <!--          <div class="name">Иванов Иван Петрович</div>-->
+    <!--          <div class="phone">+79001231234</div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </el-scrollbar>-->
+
+    <div class="footer box-shrink">
       <el-pagination
           v-model:current-page="curPage"
           v-model:page-size="pageSize"
@@ -40,17 +49,6 @@ import {ref} from "vue";
 
 const emit = defineEmits(['client-clicked'])
 
-// Костыль, можно было бы сделать получше с правильными зависимостями и реактивностями
-const css = () => {
-  const footerHeightPx = 50
-  const scrollbarHeightPx = `calc(100% - ${footerHeightPx}px)`
-
-  return {
-    footerHeightPx,
-    scrollbarHeightPx,
-  }
-}
-
 const curPage = ref(0);
 const pageSize = ref(10);
 
@@ -68,8 +66,11 @@ const clients = [
 @import "@/styles/app/colors.scss";
 
 .ClientsList {
-  border-right: 1px solid $color-border;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  max-height: 87vh;
 
   .search {
     padding: 12px;
@@ -78,6 +79,7 @@ const clients = [
   .clients {
     display: flex;
     flex-direction: column;
+    max-height: 100%;
 
     .client {
       border-top: 1px solid $color-border;
@@ -115,16 +117,15 @@ const clients = [
     }
   }
 
+
   .footer {
-    position: absolute;
-    left: 0;
-    right: 0;
     border-top: 1px solid $color-border;
+
     display: flex;
     align-items: center;
     justify-content: start;
-    padding-left: 12px;
-
+    padding: 12px;
+    background-color: white;
 
     -webkit-box-shadow: 2px -7px 35px 4px rgba(34, 60, 80, 0.18);
     -moz-box-shadow: 2px -7px 35px 4px rgba(34, 60, 80, 0.18);
