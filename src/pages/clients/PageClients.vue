@@ -3,8 +3,18 @@
     <h1>Клиенты</h1>
 
     <div class="body">
-      <ClientsList class="list" @client-clicked="(id) => selectedClientId = id"/>
-      <div class="detailed">{{ selectedClientId }}</div>
+      <ClientsList
+          ref="refClientsList"
+          class="list"
+          @client-clicked="(id) => selectedClientId = id"
+          :selected-id="selectedClientId"
+      />
+      <ClientsDetailed
+          v-if="selectedClientId"
+          class="detailed"
+          :client-id="selectedClientId"
+          @deleted="refreshData"
+      />
     </div>
 
   </div>
@@ -14,8 +24,20 @@
 <script setup>
 import ClientsList from "@/components/clients.list/ClientsList.vue";
 import {ref} from "vue";
+import ClientsDetailed from "@/components/clients.detailed/ClientsDetailed.vue";
+import {useNotification} from "@/services/useNotifications";
 
 const selectedClientId = ref(null);
+const refClientsList = ref(null);
+
+function refreshData() {
+  refClientsList.value.refreshData();
+  selectedClientId.value = null;
+  useNotification().show({
+    type: 'success',
+    message: 'Клиент удалён'
+  })
+}
 </script>
 
 

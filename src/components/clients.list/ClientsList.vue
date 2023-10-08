@@ -19,7 +19,7 @@
 
     <el-scrollbar class="clients">
       <div
-          class="client"
+          :class="{client: true, selected: props?.selectedId === client?.id}"
           v-for="client in clients"
           @click="emit('client-clicked', client?.id)"
       >
@@ -29,6 +29,8 @@
           <div class="name">{{ client?.name }}</div>
           <div class="phone">{{ client?.phone }}</div>
         </div>
+
+        <div v-if="props?.selectedId === client?.id" class="indicator"></div>
       </div>
     </el-scrollbar>
 
@@ -52,6 +54,19 @@ import {computed, onMounted, ref, watch} from "vue";
 import {useClientsRepository} from "@/repositories/clients";
 
 const clientsRepo = useClientsRepository();
+
+const props = defineProps({
+  selectedId: {
+    type: Number,
+    required: true,
+  }
+})
+
+defineExpose({
+  refreshData: async () => {
+    await loadClients()
+  }
+})
 
 const emit = defineEmits(['client-clicked'])
 
@@ -117,13 +132,29 @@ const showSearchButton = computed(() => {
       display: flex;
       align-items: center;
       justify-content: stretch;
+      position: relative;
 
       &:hover {
         background-color: #f6f6f6;
       }
 
+      &.selected {
+        background-color: rgba(0, 165, 201, 0.09);
+      }
+
+      .indicator {
+        position: absolute;
+        left: 0;
+        top: 4px;
+        bottom: 4px;
+        width: 4px;
+        background-color: #00A5C9;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
       .logo {
-        border-radius: 100%;
+        border-radius: 4px;
       }
 
       .body {
