@@ -1,33 +1,36 @@
 <template>
-  <div class="ClientsList">
+  <div class="ClientsList" v-loading="clientsRepo.isLoading.value">
     <div class="search">
-      <el-input v-model="search" placeholder="Поиск по ФИО или телефону"/>
+      <el-input
+          v-model="search"
+          placeholder="Поиск по ФИО или телефону"
+          clearable
+          @clear="loadClients"
+          @keydown.enter="loadClients"
+      />
+      <el-button
+          type="primary"
+          v-if="showSearchButton"
+          @click="loadClients"
+      >
+        Искать
+      </el-button>
     </div>
 
     <el-scrollbar class="clients">
-      <div class="client" v-for="client in 40" @click="emit('client-clicked', 42)">
-        <img src="https://i.pravatar.cc/150?u=fake@pravatar.com" class="logo" height="35" width="35"/>
+      <div
+          class="client"
+          v-for="client in clients"
+          @click="emit('client-clicked', client?.id)"
+      >
+        <img :src="'https://i.pravatar.cc/150?u='+client?.id" class="logo" height="35" width="35"/>
 
         <div class="body">
-          <div class="name">Иванов Иван Петрович</div>
-          <div class="phone">+79001231234</div>
+          <div class="name">{{ client?.name }}</div>
+          <div class="phone">{{ client?.phone }}</div>
         </div>
       </div>
     </el-scrollbar>
-
-    <!--        <el-scrollbar style="flex: 1">-->
-    <!--        </el-scrollbar>-->
-
-    <!--    <el-scrollbar class="clients">-->
-    <!--      <div class="client" v-for="client in 40" @click="emit('client-clicked', 42)">-->
-    <!--        <img src="https://i.pravatar.cc/150?u=fake@pravatar.com" class="logo" height="35" width="35"/>-->
-
-    <!--        <div class="body">-->
-    <!--          <div class="name">Иванов Иван Петрович</div>-->
-    <!--          <div class="phone">+79001231234</div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </el-scrollbar>-->
 
     <div class="footer box-shrink">
       <el-pagination
@@ -37,7 +40,7 @@
           :small="true"
           :background="true"
           layout="total, sizes, prev, pager, next"
-          :total="400"
+          :total="totalSize"
       />
     </div>
   </div>
@@ -45,20 +48,43 @@
 
 
 <script setup>
-import {ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
+import {useClientsRepository} from "@/repositories/clients";
+
+const clientsRepo = useClientsRepository();
 
 const emit = defineEmits(['client-clicked'])
 
-const curPage = ref(0);
-const pageSize = ref(10);
+const curPage = ref(1);
+const pageSize = ref(25);
+const totalSize = ref(0);
 
 const search = ref('');
 
-const clients = [
-  {},
-  {},
-  {},
-]
+const clients = ref([]);
+
+onMounted(() => {
+  loadClients();
+})
+
+watch([curPage, pageSize], () => {
+  loadClients();
+})
+
+async function loadClients() {
+  const res = await clientsRepo.getList({
+    currentPage: curPage.value,
+    perPage: pageSize.value,
+    q: search.value,
+  })
+
+  clients.value = res.data.items;
+  totalSize.value = res.data.pagination.total;
+}
+
+const showSearchButton = computed(() => {
+  return search.value.length > 0;
+})
 </script>
 
 
@@ -74,6 +100,9 @@ const clients = [
 
   .search {
     padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   .clients {
