@@ -2,8 +2,15 @@
   <div class="ClientsDetailed">
     <div class="info" v-loading="clientsRepo.isLoading.value">
       <div class="ava">
-        <img :src="'https://i.pravatar.cc/300?u='+clientId" class="image" height="200" width="200"/>
+        <img
+            v-if="!creationMode"
+            :src="'https://i.pravatar.cc/300?u='+clientId"
+            class="image"
+            height="200"
+            width="200"
+        />
       </div>
+
       <el-form
           class="fields"
           label-position="top"
@@ -15,6 +22,9 @@
           <template v-if="isEditMode">
             <el-button type="primary" @click="saveEdit">Сохранить</el-button>
             <el-button type="danger" plain @click="cancelEdit">Отменить редактирование</el-button>
+          </template>
+          <template v-else-if="props?.creationMode">
+            <el-button type="primary" @click="createClient">Добавить клиента</el-button>
           </template>
           <template v-else>
             <el-button type="primary" @click="isEditMode = true">Редактировать</el-button>
@@ -33,13 +43,13 @@
 
         <div class="bottom">
           <div class="left">
-            <template v-if="isEditMode">
+            <template v-if="isEditable">
               <el-form-item label="ФИО" required prop="name">
-                <el-input v-model="formData.name" :disabled="!isEditMode" class="text"/>
+                <el-input v-model="formData.name" :disabled="!isEditable" class="text"/>
               </el-form-item>
 
               <el-form-item label="Телефон" required prop="phone">
-                <el-input v-model="formData.phone" :disabled="!isEditMode" class="text"/>
+                <el-input v-model="formData.phone" :disabled="!isEditable" class="text"/>
               </el-form-item>
 
               <el-form-item label="Пол" required prop="sex">
@@ -49,7 +59,7 @@
                     style="--el-switch-on-color: #137ace; --el-switch-off-color: #f349ff"
                     active-text="М"
                     inactive-text="Ж"
-                    :disabled="!isEditMode"
+                    :disabled="!isEditable"
                 />
               </el-form-item>
             </template>
@@ -62,14 +72,14 @@
           </div>
 
           <div class="right">
-            <template v-if="isEditMode">
+            <template v-if="isEditable">
               <el-form-item label="Адрес" prop="address">
                 <el-input
                     class="text"
-                    :disabled="!isEditMode"
+                    :disabled="!isEditable"
                     v-model="formData.address"
                     type="textarea"
-                    rows="3"
+                    rows="5"
                 />
               </el-form-item>
             </template>
@@ -82,7 +92,7 @@
       </el-form>
     </div>
 
-    <div class="cars">
+    <div class="cars" v-if="!isEditable">
       <h2>Автомобили</h2>
     </div>
   </div>
@@ -90,7 +100,7 @@
 
 
 <script setup>
-import {onMounted, reactive, ref, watch} from "vue";
+import {computed, onMounted, reactive, ref, watch} from "vue";
 import {useClientsRepository} from "@/repositories/clients";
 import UiCaptionedValue from "@/components/ui.captionedValue/UiCaptionedValue.vue";
 import {useNotification} from "@/services/useNotifications";
@@ -98,12 +108,16 @@ import {clientValidationRules} from "@/rules/clientValidationRules";
 
 const props = defineProps({
   clientId: {
-    type: Number,
     required: true,
+    type: Number,
+  },
+  creationMode: {
+    required: false,
+    type: Boolean,
   }
 })
 
-const emit = defineEmits(['deleted', 'updated']);
+const emit = defineEmits(['deleted', 'updated', 'created']);
 
 const clientsRepo = useClientsRepository();
 const client = ref(null);
@@ -133,14 +147,22 @@ watch([props], () => {
   isEditMode.value = false;
 })
 
-async function loadClient() {
-  const res = await clientsRepo.get({id: props?.clientId});
-  client.value = res.data;
+const isEditable = computed(() => {
+  return (props?.clientId && isEditMode.value) || (props?.creationMode);
+});
 
-  formData.name = client.value.name
-  formData.phone = client.value.phone
-  formData.address = client.value.address
-  formData.sex = client.value.sex
+async function loadClient() {
+  if (props?.clientId) {
+    const res = await clientsRepo.get({id: props?.clientId});
+    client.value = res.data;
+  } else {
+    client.value = null;
+  }
+
+  formData.name = client.value?.name
+  formData.phone = client.value?.phone
+  formData.address = client.value?.address
+  formData.sex = client.value?.sex ?? true
 }
 
 async function saveEdit() {
@@ -178,6 +200,25 @@ async function deleteClient() {
     message: 'Клиент удалён'
   })
 }
+
+async function createClient() {
+  refForm?.value.validate(async (valid) => {
+    if (!valid) return;
+
+    const res = await clientsRepo.create({
+      name: formData.name,
+      phone: formData.phone,
+      address: formData.address,
+      sex: formData.sex,
+    });
+
+    useNotification().show({
+      type: 'success',
+      message: 'Клиент добавлен'
+    });
+    emit('created');
+  })
+}
 </script>
 
 
@@ -194,6 +235,8 @@ async function deleteClient() {
     .ava {
       .image {
         border-radius: 6px;
+        min-height: 200px;
+        min-width: 200px;
       }
     }
 
@@ -205,6 +248,7 @@ async function deleteClient() {
       .top {
         display: flex;
         align-items: center;
+        gap: 12px;
       }
 
       .bottom {

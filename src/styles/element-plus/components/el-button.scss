@@ -8,6 +8,11 @@
   padding: 16px;
   border-radius: 6px;
   font-weight: 400;
+
+  .icon {
+    margin-right: 4px;
+    font-size: 18px;
+  }
 }
 
 .el-table {
@@ -17,65 +22,65 @@
 }
 
 
-// Branded
-.el-button.brand {
-  outline: none;
-  border: none;
-
-  &.is-disabled {
-    opacity: 0.3;
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    box-shadow: none !important;
-
-    &:hover, &:focus, &:active {
-      background-color: grey;
-      border: none;
-    }
-  }
-
-  &.is-text {
-    background: none !important;
-  }
-
-  &.el-button--primary {
-    background: appColors.$grad-primary;
-
-    &:hover,
-    &:focus {
-      @include appColors.shadow-outer(appColors.$color-primary);
-    }
-
-    &:active {
-      background: appColors.$grad-primary-reverse !important;
-    }
-  }
-
-
-  &.el-button--default {
-    background: appColors.$grad-default;
-
-    &:hover,
-    &:focus {
-      @include appColors.shadow-outer(appColors.$color-default);
-    }
-
-    &:active {
-      background: appColors.$grad-default-reverse !important;
-    }
-  }
-
-
-  &.el-button--info {
-    background: appColors.$grad-info;
-
-    &:hover,
-    &:focus {
-      @include appColors.shadow-outer(appColors.$color-info);
-    }
-
-    &:active {
-      background: appColors.$grad-info-reverse !important;
-    }
-  }
-}
+//// Branded
+//.el-button.brand {
+//  outline: none;
+//  border: none;
+//
+//  &.is-disabled {
+//    opacity: 0.3;
+//    -webkit-box-shadow: none !important;
+//    -moz-box-shadow: none !important;
+//    box-shadow: none !important;
+//
+//    &:hover, &:focus, &:active {
+//      background-color: grey;
+//      border: none;
+//    }
+//  }
+//
+//  &.is-text {
+//    background: none !important;
+//  }
+//
+//  &.el-button--primary {
+//    background: appColors.$grad-primary;
+//
+//    &:hover,
+//    &:focus {
+//      @include appColors.shadow-outer(appColors.$color-primary);
+//    }
+//
+//    &:active {
+//      background: appColors.$grad-primary-reverse !important;
+//    }
+//  }
+//
+//
+//  &.el-button--default {
+//    background: appColors.$grad-default;
+//
+//    &:hover,
+//    &:focus {
+//      @include appColors.shadow-outer(appColors.$color-default);
+//    }
+//
+//    &:active {
+//      background: appColors.$grad-default-reverse !important;
+//    }
+//  }
+//
+//
+//  &.el-button--info {
+//    background: appColors.$grad-info;
+//
+//    &:hover,
+//    &:focus {
+//      @include appColors.shadow-outer(appColors.$color-info);
+//    }
+//
+//    &:active {
+//      background: appColors.$grad-info-reverse !important;
+//    }
+//  }
+//}

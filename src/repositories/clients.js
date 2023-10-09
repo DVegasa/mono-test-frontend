@@ -75,6 +75,26 @@ export const useClientsRepository = () => {
       } finally {
         isLoading.value = false;
       }
+    },
+
+    create: async ({
+      name,
+      sex,
+      phone,
+      address,
+    }) => {
+      try {
+        isLoading.value = true;
+        const res = await api.post('clients/create', {}, {
+          name,
+          sex,
+          phone,
+          address,
+        });
+        return res.data;
+      } finally {
+        isLoading.value = false;
+      }
     }
   }
 }

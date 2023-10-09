@@ -1,3 +1,5 @@
+import {validators} from "@/rules/validators";
+
 export const clientValidationRules = {
   name: [
     {
@@ -13,13 +15,17 @@ export const clientValidationRules = {
       required: true,
       type: 'string',
       trigger: 'blur',
+      message: "Должен начинаться с + и быть до 15 символов",
+    },
+    {
+      validator: validators.phone,
     }
   ],
   sex: [
     {
-      required: true,
       type: 'boolean',
       trigger: 'blur',
+      message: 'Обязательное поле'
     },
   ],
   address: [
