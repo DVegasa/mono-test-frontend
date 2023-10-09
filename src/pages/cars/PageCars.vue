@@ -19,6 +19,16 @@
           @car-clicked="carSelected"
           :selected-id="selectedCarId"
       />
+      <CarsDetailed
+          v-if="selectedCarId || creationMode"
+          class="detailed"
+          :car-id="selectedCarId"
+          @deleted="carDeleted"
+          @updated="carUpdated"
+          @created="carCreated"
+          @park-switched="carParkSwitched"
+          :creation-mode="creationMode"
+      />
     </div>
   </div>
 </template>
@@ -28,6 +38,8 @@
 import {Icon} from "@iconify/vue";
 import {ref} from "vue";
 import CarsList from "@/components/cars.list/CarsList.vue";
+import CarsDetailed from "@/components/cars.detailed/CarsDetailed.vue";
+import ClientsDetailed from "@/components/clients.detailed/ClientsDetailed.vue";
 
 const selectedCarId = ref(null);
 const creationMode = ref(false);
@@ -48,14 +60,18 @@ function carCreated() {
   creationMode.value = false;
 }
 
+function carParkSwitched() {
+  refCarsList.value.refreshData();
+}
+
 function createCar() {
   selectedCarId.value = null;
   creationMode.value = true;
 }
 
-function carSelected(clientId) {
+function carSelected(carId) {
   creationMode.value = false;
-  selectedCarId.value = clientId;
+  selectedCarId.value = carId;
 }
 </script>
 
@@ -85,6 +101,7 @@ function carSelected(clientId) {
 
     .detailed {
       flex: 1;
+      max-width: 600px;
     }
   }
 }

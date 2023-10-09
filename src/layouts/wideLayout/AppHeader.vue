@@ -5,13 +5,19 @@
       <div class="title">Моя парковка</div>
     </router-link>
 
-    <div class="stats">
-      <transition appear>
-        <div class="stat" v-if="stats?.carsParked">
-          Автомобилей на парковке: {{ stats?.carsParked }}
-        </div>
-      </transition>
-    </div>
+    <el-tooltip
+        content="Обновляется каждые несколько секунд"
+        v-if="stats?.carsParked"
+    >
+      <div class="stats">
+        <transition appear>
+          <div class="stat">
+            Автомобилей на парковке: {{ stats?.carsParked }}
+          </div>
+        </transition>
+        <Icon icon="bx:help-circle" class="icon"/>
+      </div>
+    </el-tooltip>
   </div>
 </template>
 
@@ -20,6 +26,7 @@
 
 import {useStatsRepository} from "@/repositories/stats";
 import {onMounted, reactive} from "vue";
+import {Icon} from "@iconify/vue";
 
 const statsRepo = useStatsRepository();
 
@@ -82,6 +89,9 @@ async function refreshStats() {
     padding-left: 14px;
     font-size: 12px;
     border-left: 1px solid $color-border;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
     .v-enter-active,
     .v-leave-active {
@@ -91,6 +101,10 @@ async function refreshStats() {
     .v-enter-from,
     .v-leave-to {
       opacity: 0;
+    }
+
+    .icon {
+      color: #797979;
     }
   }
 }

@@ -163,8 +163,6 @@ async function loadCars() {
   } else {
     cars.value = null;
   }
-
-
 }
 
 async function loadClient() {
