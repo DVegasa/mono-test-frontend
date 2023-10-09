@@ -17,21 +17,14 @@
       </el-button>
     </div>
 
-    <el-scrollbar class="clients">
-      <div
-          :class="{client: true, selected: props?.selectedId === client?.id}"
+    <el-scrollbar class="clients" height="none">
+      <ListElementClient
           v-for="client in clients"
+          :key="client?.id"
+          :client="client"
+          :selected="props?.selectedId === client?.id"
           @click="emit('client-clicked', client?.id)"
-      >
-        <img :src="'https://i.pravatar.cc/150?u='+client?.id" class="logo" height="35" width="35"/>
-
-        <div class="body">
-          <div class="name">{{ client?.name }}</div>
-          <div class="phone">{{ client?.phone }}</div>
-        </div>
-
-        <div v-if="props?.selectedId === client?.id" class="indicator"></div>
-      </div>
+      />
     </el-scrollbar>
 
     <div class="footer box-shrink">
@@ -52,6 +45,7 @@
 <script setup>
 import {computed, onMounted, ref, watch} from "vue";
 import {useClientsRepository} from "@/repositories/clients";
+import ListElementClient from "@/components/listElement.client/ListElementClient.vue";
 
 const clientsRepo = useClientsRepository();
 
@@ -109,76 +103,36 @@ const showSearchButton = computed(() => {
 .ClientsList {
   position: relative;
 
-  display: flex;
-  flex-direction: column;
-  max-height: 87vh;
-
   .search {
     padding: 12px;
     display: flex;
     align-items: center;
     gap: 12px;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
   }
 
   .clients {
-    display: flex;
-    flex-direction: column;
-    max-height: 100%;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 50px;
 
-    .client {
-      border-top: 1px solid $color-border;
-      padding: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: stretch;
-      position: relative;
-
-      &:hover {
-        background-color: #f6f6f6;
-      }
-
-      &.selected {
-        background-color: rgba(0, 165, 201, 0.09);
-      }
-
-      .indicator {
-        position: absolute;
-        left: 0;
-        top: 4px;
-        bottom: 4px;
-        width: 4px;
-        background-color: #00A5C9;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-      }
-
-      .logo {
-        border-radius: 4px;
-      }
-
-      .body {
-        padding-left: 12px;
-        display: flex;
-        flex-direction: column;
-
-        .name {
-          font-weight: 500;
-          font-size: 16px;
-          color: #131313;
-        }
-
-        .phone {
-          font-weight: 500;
-          font-size: 12px;
-          color: #343434;
-        }
-      }
+    &.el-scrollbar {
+      height: unset;
     }
   }
 
-
   .footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
     border-top: 1px solid $color-border;
 
     display: flex;
