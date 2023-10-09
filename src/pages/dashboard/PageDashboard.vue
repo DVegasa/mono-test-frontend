@@ -6,17 +6,17 @@
 
     <el-scrollbar class="page">
       <div class="stats">
-        <el-statistic value="20" class="stat">
+        <el-statistic v-loading="statsRepo.isLoading.value" :value="stats.clientsAll" class="stat">
           <template #title>
             Клиентов в системе
           </template>
         </el-statistic>
-        <el-statistic value="20" class="stat">
+        <el-statistic v-loading="statsRepo.isLoading.value" :value="stats.carsAll" class="stat">
           <template #title>
             Автомобилей в системе
           </template>
         </el-statistic>
-        <el-statistic value="20" class="stat">
+        <el-statistic v-loading="statsRepo.isLoading.value" :value="stats.carsParked" class="stat">
           <template #title>
             Автомобилей на парковке сейчас
           </template>
@@ -28,6 +28,28 @@
 
 
 <script setup>
+
+import {useStatsRepository} from "@/repositories/stats";
+import {onMounted, reactive} from "vue";
+
+const statsRepo = useStatsRepository();
+
+const stats = reactive({
+  carsAll: null,
+  carsParked: null,
+  clientsAll: null,
+});
+
+onMounted(() => {
+  loadStats()
+})
+
+async function loadStats() {
+  const res = await statsRepo.getAll();
+  stats.carsAll = res.data.cars.all;
+  stats.carsParked = res.data.cars.parked;
+  stats.clientsAll = res.data.clients.all;
+}
 
 </script>
 
