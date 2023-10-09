@@ -13,7 +13,8 @@
           v-if="selectedClientId"
           class="detailed"
           :client-id="selectedClientId"
-          @deleted="refreshData"
+          @deleted="clientDeleted"
+          @updated="clientUpdated"
       />
     </div>
 
@@ -30,13 +31,13 @@ import {useNotification} from "@/services/useNotifications";
 const selectedClientId = ref(null);
 const refClientsList = ref(null);
 
-function refreshData() {
+function clientDeleted() {
   refClientsList.value.refreshData();
   selectedClientId.value = null;
-  useNotification().show({
-    type: 'success',
-    message: 'Клиент удалён'
-  })
+}
+
+function clientUpdated() {
+  refClientsList.value.refreshData();
 }
 </script>
 

@@ -46,9 +46,31 @@ export const useClientsRepository = () => {
     }) => {
       try {
         isLoading.value = true;
-        const res = await api.post('clients/delete', {
+        const res = await api.post('clients/delete', {}, {
           clientId: id,
         })
+        return res.data;
+      } finally {
+        isLoading.value = false;
+      }
+    },
+
+    update: async ({
+      id,
+      name,
+      sex,
+      phone,
+      address,
+    }) => {
+      try {
+        isLoading.value = true;
+        const res = await api.post('clients/update', {}, {
+          clientId: id,
+          name,
+          sex,
+          phone,
+          address,
+        });
         return res.data;
       } finally {
         isLoading.value = false;

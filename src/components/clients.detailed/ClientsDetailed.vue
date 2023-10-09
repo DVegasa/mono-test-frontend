@@ -8,6 +8,8 @@
           class="fields"
           label-position="top"
           :model="formData"
+          :rules="formRules"
+          ref="refForm"
       >
         <div class="top">
           <template v-if="isEditMode">
@@ -20,6 +22,7 @@
             <el-popconfirm
                 title="Подтвердите удаление"
                 @confirm="deleteClient"
+                width="250"
             >
               <template #reference>
                 <el-button type="danger" plain>Удалить</el-button>
@@ -30,30 +33,49 @@
 
         <div class="bottom">
           <div class="left">
-            <el-form-item label="ФИО" required>
-              <el-input v-model="formData.name" :disabled="!isEditMode"/>
-            </el-form-item>
-            <el-form-item label="Телефон" required>
-              <el-input v-model="formData.phone" :disabled="!isEditMode"/>
-            </el-form-item>
-            <el-switch
-                v-model="formData.sex"
-                style="--el-switch-on-color: #137ace; --el-switch-off-color: #f349ff"
-                active-text="М"
-                inactive-text="Ж"
-                :disabled="!isEditMode"
-            />
+            <template v-if="isEditMode">
+              <el-form-item label="ФИО" required prop="name">
+                <el-input v-model="formData.name" :disabled="!isEditMode" class="text"/>
+              </el-form-item>
+
+              <el-form-item label="Телефон" required prop="phone">
+                <el-input v-model="formData.phone" :disabled="!isEditMode" class="text"/>
+              </el-form-item>
+
+              <el-form-item label="Пол" required prop="sex">
+                <el-switch
+                    class="text"
+                    v-model="formData.sex"
+                    style="--el-switch-on-color: #137ace; --el-switch-off-color: #f349ff"
+                    active-text="М"
+                    inactive-text="Ж"
+                    :disabled="!isEditMode"
+                />
+              </el-form-item>
+            </template>
+
+            <template v-else>
+              <UiCaptionedValue class="caption" caption="ФИО" :value="client?.name"/>
+              <UiCaptionedValue class="caption" caption="Телефон" :value="client?.phone"/>
+              <UiCaptionedValue class="caption" caption="Пол" :value="client?.sex ? 'Мужской' : 'Женский'"/>
+            </template>
           </div>
 
           <div class="right">
-            <el-form-item label="Адрес">
-              <el-input
-                  :disabled="!isEditMode"
-                  v-model="formData.address"
-                  type="textarea"
-                  rows="3"
-              />
-            </el-form-item>
+            <template v-if="isEditMode">
+              <el-form-item label="Адрес" prop="address">
+                <el-input
+                    class="text"
+                    :disabled="!isEditMode"
+                    v-model="formData.address"
+                    type="textarea"
+                    rows="3"
+                />
+              </el-form-item>
+            </template>
+            <template v-else>
+              <UiCaptionedValue class="caption" caption="Адрес" :value="client?.address"/>
+            </template>
           </div>
         </div>
 
@@ -70,6 +92,9 @@
 <script setup>
 import {onMounted, reactive, ref, watch} from "vue";
 import {useClientsRepository} from "@/repositories/clients";
+import UiCaptionedValue from "@/components/ui.captionedValue/UiCaptionedValue.vue";
+import {useNotification} from "@/services/useNotifications";
+import {clientValidationRules} from "@/rules/clientValidationRules";
 
 const props = defineProps({
   clientId: {
@@ -78,17 +103,25 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['deleted']);
+const emit = defineEmits(['deleted', 'updated']);
 
 const clientsRepo = useClientsRepository();
 const client = ref(null);
 
 const isEditMode = ref(false);
+const refForm = ref(null);
 const formData = reactive({
   name: '',
   phone: '',
   address: '',
   sex: '',
+});
+
+const formRules = reactive({
+  name: clientValidationRules.name,
+  phone: clientValidationRules.phone,
+  sex: clientValidationRules.sex,
+  address: clientValidationRules.address,
 });
 
 onMounted(() => {
@@ -97,6 +130,7 @@ onMounted(() => {
 
 watch([props], () => {
   loadClient();
+  isEditMode.value = false;
 })
 
 async function loadClient() {
@@ -110,8 +144,25 @@ async function loadClient() {
 }
 
 async function saveEdit() {
+  refForm?.value.validate(async (valid) => {
+    if (!valid) return;
 
-  isEditMode.value = false;
+    isEditMode.value = false;
+    const res = await clientsRepo.update({
+      id: props?.clientId,
+      name: formData.name,
+      phone: formData.phone,
+      address: formData.address,
+      sex: formData.sex,
+    })
+
+    await loadClient();
+    useNotification().show({
+      type: 'success',
+      message: 'Информация обновлена'
+    })
+    emit('updated');
+  });
 }
 
 async function cancelEdit() {
@@ -122,6 +173,10 @@ async function cancelEdit() {
 async function deleteClient() {
   const res = await clientsRepo.delete({id: props?.clientId});
   emit('deleted');
+  useNotification().show({
+    type: 'success',
+    message: 'Клиент удалён'
+  })
 }
 </script>
 
@@ -130,7 +185,7 @@ async function deleteClient() {
 .ClientsDetailed {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
 
   .info {
     display: flex;
@@ -160,6 +215,10 @@ async function deleteClient() {
         .left,
         .right {
           flex: 1;
+        }
+
+        .caption {
+          margin-bottom: 18px;
         }
       }
     }
