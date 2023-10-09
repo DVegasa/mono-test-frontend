@@ -12,6 +12,7 @@ export const useCarsRepository = () => {
       currentPage = 1,
       perPage = 10,
       q = null,
+      ownerId = null,
     }) => {
       try {
         isLoading.value = true;
@@ -20,6 +21,7 @@ export const useCarsRepository = () => {
           currentPage,
           perPage,
           q,
+          ownerId,
         });
         return res.data;
       } finally {

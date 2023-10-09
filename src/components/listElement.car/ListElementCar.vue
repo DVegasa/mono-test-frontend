@@ -7,6 +7,8 @@
     </div>
     <div class="bottom">
       <UiPlate :plate="props?.car?.plate" class="plate"/>
+      <Icon icon="uil:parking-square" v-if="props?.car?.isParked" class="icon"/>
+      <div style="width: 14px" v-else/>
       <div class="color">
         {{ props?.car?.color }}
       </div>
@@ -19,6 +21,7 @@
 
 <script setup>
 import UiPlate from "@/components/ui.plate/UiPlate.vue";
+import {Icon} from "@iconify/vue";
 
 const props = defineProps({
   car: {
@@ -68,7 +71,14 @@ const props = defineProps({
   }
 
   .top {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 
+    .text {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .bottom {

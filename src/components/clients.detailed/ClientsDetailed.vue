@@ -94,6 +94,7 @@
 
     <div class="cars" v-if="!isEditable">
       <h2>Автомобили</h2>
+      <CarsList :owner-id="props?.clientId" :selected-id="null" class="carsList"/>
     </div>
   </div>
 </template>
@@ -105,6 +106,8 @@ import {useClientsRepository} from "@/repositories/clients";
 import UiCaptionedValue from "@/components/ui.captionedValue/UiCaptionedValue.vue";
 import {useNotification} from "@/services/useNotifications";
 import {clientValidationRules} from "@/rules/clientValidationRules";
+import {useCarsRepository} from "@/repositories/cars";
+import CarsList from "@/components/cars.list/CarsList.vue";
 
 const props = defineProps({
   clientId: {
@@ -120,7 +123,9 @@ const props = defineProps({
 const emit = defineEmits(['deleted', 'updated', 'created']);
 
 const clientsRepo = useClientsRepository();
+const carsRepo = useCarsRepository();
 const client = ref(null);
+const cars = ref(null);
 
 const isEditMode = ref(false);
 const refForm = ref(null);
@@ -150,6 +155,17 @@ watch([props], () => {
 const isEditable = computed(() => {
   return (props?.clientId && isEditMode.value) || (props?.creationMode);
 });
+
+async function loadCars() {
+  if (props?.clientId) {
+    const res = await carsRepo.getList({ownerId: props?.clientId})
+    cars.value = res.data;
+  } else {
+    cars.value = null;
+  }
+
+
+}
 
 async function loadClient() {
   if (props?.clientId) {
@@ -265,6 +281,17 @@ async function createClient() {
           margin-bottom: 18px;
         }
       }
+    }
+  }
+
+  .cars {
+    h2 {
+      padding-left: 14px;
+    }
+
+    .carsList {
+      width: 800px;
+      height: 500px;
     }
   }
 }

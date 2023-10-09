@@ -54,8 +54,13 @@ const props = defineProps({
   selectedId: {
     type: Number,
     required: true,
+  },
+  ownerId: {
+    type: Number,
+    required: false,
   }
 })
+const _prevOwnerId = ref(null);
 
 defineExpose({
   refreshData: async () => {
@@ -81,11 +86,21 @@ watch([curPage, pageSize], () => {
   loadCars();
 })
 
+watch([props], () => {
+  if (_prevOwnerId.value !== props?.ownerId) {
+    curPage.value = 1;
+    totalSize.value = 0;
+    loadCars();
+  }
+  _prevOwnerId.value = props?.ownerId;
+})
+
 async function loadCars() {
   const res = await carsRepo.getList({
     currentPage: curPage.value,
     perPage: pageSize.value,
     q: search.value,
+    ownerId: props?.ownerId,
   })
 
   cars.value = res.data.items;
