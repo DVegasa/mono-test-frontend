@@ -74,7 +74,6 @@ function clientSelected(clientId) {
 
 
 <style scoped lang="scss">
-@import "@/styles/app/sizes.scss";
 @import "@/styles/app/colors.scss";
 
 .PageClients {

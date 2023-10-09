@@ -1,29 +1,29 @@
 <template>
-  <div class="ClientsList" v-loading="clientsRepo.isLoading.value">
+  <div class="CarsList" v-loading="carsRepo.isLoading.value">
     <div class="search">
       <el-input
           v-model="search"
-          placeholder="Поиск по ФИО или телефону"
+          placeholder="Поиск по марке, модели или рег.знаку"
           clearable
-          @clear="loadClients"
-          @keydown.enter="loadClients"
+          @clear="loadCars"
+          @keydown.enter="loadCars"
       />
       <el-button
           type="primary"
           v-if="showSearchButton"
-          @click="loadClients"
+          @click="loadCars"
       >
         Искать
       </el-button>
     </div>
 
-    <el-scrollbar class="clients" height="none">
-      <ListElementClient
-          v-for="client in clients"
-          :key="client?.id"
-          :client="client"
-          :selected="props?.selectedId === client?.id"
-          @click="emit('client-clicked', client?.id)"
+    <el-scrollbar class="cars" height="none">
+      <ListElementCar
+          v-for="car in cars"
+          :key="car?.id"
+          :car="car"
+          :selected="props?.selectedId === car?.id"
+          @click="emit('car-clicked', car?.id)"
       />
     </el-scrollbar>
 
@@ -44,10 +44,11 @@
 
 <script setup>
 import {computed, onMounted, ref, watch} from "vue";
-import {useClientsRepository} from "@/repositories/clients";
 import ListElementClient from "@/components/listElement.client/ListElementClient.vue";
+import {useCarsRepository} from "@/repositories/cars";
+import ListElementCar from "@/components/listElement.car/ListElementCar.vue";
 
-const clientsRepo = useClientsRepository();
+const carsRepo = useCarsRepository();
 
 const props = defineProps({
   selectedId: {
@@ -58,11 +59,11 @@ const props = defineProps({
 
 defineExpose({
   refreshData: async () => {
-    await loadClients()
+    await loadCars()
   }
 })
 
-const emit = defineEmits(['client-clicked'])
+const emit = defineEmits(['car-clicked'])
 
 const curPage = ref(1);
 const pageSize = ref(25);
@@ -70,24 +71,24 @@ const totalSize = ref(0);
 
 const search = ref('');
 
-const clients = ref([]);
+const cars = ref([]);
 
 onMounted(() => {
-  loadClients();
+  loadCars();
 })
 
 watch([curPage, pageSize], () => {
-  loadClients();
+  loadCars();
 })
 
-async function loadClients() {
-  const res = await clientsRepo.getList({
+async function loadCars() {
+  const res = await carsRepo.getList({
     currentPage: curPage.value,
     perPage: pageSize.value,
     q: search.value,
   })
 
-  clients.value = res.data.items;
+  cars.value = res.data.items;
   totalSize.value = res.data.pagination.total;
 }
 
@@ -100,7 +101,7 @@ const showSearchButton = computed(() => {
 <style scoped lang="scss">
 @import "@/styles/app/colors.scss";
 
-.ClientsList {
+.CarsList {
   position: relative;
 
   .search {
@@ -115,7 +116,7 @@ const showSearchButton = computed(() => {
     right: 0;
   }
 
-  .clients {
+  .cars {
     position: absolute;
     top: 50px;
     left: 0;
