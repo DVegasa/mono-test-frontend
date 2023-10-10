@@ -31,7 +31,7 @@
 
     <div class="owner" v-loading="clientsRepo.isLoading.value">
       <h2>Владелец</h2>
-      <ListElementClient :client="owner"/>
+      <ListElementClient :client="owner" @click="ownerClicked(owner?.id)"/>
     </div>
   </div>
 </template>
@@ -46,6 +46,8 @@ import UiPlate from "@/components/ui.plate/UiPlate.vue";
 import {Icon} from "@iconify/vue";
 import {useParkingRepository} from "@/repositories/parking";
 import ListElementClient from "@/components/listElement.client/ListElementClient.vue";
+import {useRouter} from "vue-router";
+import {RouterClients} from "@/pages/clients/routes";
 
 const props = defineProps({
   carId: {
@@ -59,6 +61,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['deleted', 'updated', 'created', 'parkSwitched']);
+
+const router = useRouter();
 
 onMounted(() => {
   refreshData();
@@ -126,6 +130,10 @@ async function switchParking() {
   const res = await parkingRepo.switchParking({carId: car?.value?.id});
   await refreshData();
   emit('parkSwitched');
+}
+
+function ownerClicked(clientId) {
+  router.push(RouterClients.clientsDetailed(clientId));
 }
 
 </script>

@@ -22,7 +22,7 @@
           v-for="client in clients"
           :key="client?.id"
           :client="client"
-          :selected="props?.selectedId === client?.id"
+          :selected="props?.selectedId == client?.id"
           @click="emit('client-clicked', client?.id)"
       />
     </el-scrollbar>

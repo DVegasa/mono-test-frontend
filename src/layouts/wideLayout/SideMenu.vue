@@ -2,7 +2,7 @@
   <div class="SideMenu">
     <div class="links">
       <router-link
-          :class="{link: true, selected: isSelected(link.to)}"
+          :class="{link: true, selected: isSelected(link.menuSection)}"
           :to="link.to"
           v-for="link in links"
           :key="link.name"
@@ -10,7 +10,7 @@
         <Icon :icon="link.icon" width="24" height="24"/>
         <el-text size="small">{{ link.name }}</el-text>
 
-        <div class="indicator" v-if="isSelected(link.to)">
+        <div class="indicator" v-if="isSelected(link.menuSection)">
 
         </div>
       </router-link>
@@ -23,6 +23,10 @@
 import {ref} from "vue";
 import {Icon} from "@iconify/vue";
 import {useRoute} from "vue-router";
+import {MenuSections} from "@/layouts/wideLayout/MenuSections";
+import {RouterDashboard} from "@/pages/dashboard/routes";
+import {RouterClients} from "@/pages/clients/routes";
+import {RouterCars} from "@/pages/cars/routes";
 
 const route = useRoute();
 
@@ -30,22 +34,25 @@ const links = [
   {
     name: 'Дашборд',
     icon: 'bx:home',
-    to: {name: 'dashboard'},
+    to: RouterDashboard.dashboard(),
+    menuSection: MenuSections.Dashboard,
   },
   {
     name: 'Клиенты',
     icon: 'bx:user',
-    to: {name: 'clients'},
+    to: RouterClients.clients(),
+    menuSection: MenuSections.Clients,
   },
   {
     name: 'Авто',
     icon: 'bx:car',
-    to: {name: 'cars'},
+    to: RouterCars.cars(),
+    menuSection: MenuSections.Cars,
   },
 ]
 
-function isSelected(to) {
-  return to?.name === route?.name;
+function isSelected(menuSection) {
+  return menuSection === route?.meta?.menuSection;
 }
 
 </script>

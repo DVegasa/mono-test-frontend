@@ -22,7 +22,7 @@
           v-for="car in cars"
           :key="car?.id"
           :car="car"
-          :selected="props?.selectedId === car?.id"
+          :selected="props?.selectedId == car?.id"
           @click="emit('car-clicked', car?.id)"
       />
     </el-scrollbar>

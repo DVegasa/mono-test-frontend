@@ -37,18 +37,25 @@
 
 <script setup>
 import ClientsList from "@/components/clients.list/ClientsList.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import ClientsDetailed from "@/components/clients.detailed/ClientsDetailed.vue";
 import {useNotification} from "@/services/useNotifications";
 import {Icon} from "@iconify/vue";
+import {useRoute, useRouter} from "vue-router";
+import {RouterClients} from "@/pages/clients/routes";
 
-const selectedClientId = ref(null);
+const route = useRoute();
+const router = useRouter();
+
+const selectedClientId = computed(() => {
+  return route.params?.id;
+});
 const creationMode = ref(false);
 const refClientsList = ref(null);
 
 function clientDeleted() {
   refClientsList.value.refreshData();
-  selectedClientId.value = null;
+  router.push(RouterClients.clients());
 }
 
 function clientUpdated() {
@@ -57,18 +64,18 @@ function clientUpdated() {
 
 function clientCreated() {
   refClientsList.value.refreshData();
-  selectedClientId.value = null;
+  router.push(RouterClients.clients());
   creationMode.value = false;
 }
 
 function createClient() {
-  selectedClientId.value = null;
+  router.push(RouterClients.clients());
   creationMode.value = true;
 }
 
 function clientSelected(clientId) {
   creationMode.value = false;
-  selectedClientId.value = clientId;
+  router.push(RouterClients.clientsDetailed(clientId));
 }
 </script>
 

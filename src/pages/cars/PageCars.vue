@@ -36,18 +36,26 @@
 
 <script setup>
 import {Icon} from "@iconify/vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import CarsList from "@/components/cars.list/CarsList.vue";
 import CarsDetailed from "@/components/cars.detailed/CarsDetailed.vue";
 import ClientsDetailed from "@/components/clients.detailed/ClientsDetailed.vue";
+import {useRoute, useRouter} from "vue-router";
+import {RouterCars} from "@/pages/cars/routes";
+import {RouterClients} from "@/pages/clients/routes";
 
-const selectedCarId = ref(null);
+const route = useRoute();
+const router = useRouter();
+
+const selectedCarId = computed(() => {
+  return route.params?.id;
+});
 const creationMode = ref(false);
 const refCarsList = ref(null);
 
 function carDeleted() {
   refCarsList.value.refreshData();
-  selectedCarId.value = null;
+  router.push(RouterCars.cars());
 }
 
 function carUpdated() {
@@ -56,7 +64,7 @@ function carUpdated() {
 
 function carCreated() {
   refCarsList.value.refreshData();
-  selectedCarId.value = null;
+  router.push(RouterCars.cars());
   creationMode.value = false;
 }
 
@@ -65,13 +73,13 @@ function carParkSwitched() {
 }
 
 function createCar() {
-  selectedCarId.value = null;
+  router.push(RouterCars.cars());
   creationMode.value = true;
 }
 
 function carSelected(carId) {
   creationMode.value = false;
-  selectedCarId.value = carId;
+  router.push(RouterCars.carsDetailed(carId))
 }
 </script>
 

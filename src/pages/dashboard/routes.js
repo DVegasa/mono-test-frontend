@@ -1,3 +1,13 @@
+import {MenuSections} from "@/layouts/wideLayout/MenuSections";
+
+export const RouterDashboard = {
+  dashboard: () => {
+    return {
+      name: 'dashboard',
+    }
+  },
+}
+
 export const routesDashboard = [
   {
     path: "/",
@@ -9,6 +19,7 @@ export const routesDashboard = [
         component: () => import("@/pages/dashboard/PageDashboard.vue"),
         meta: {
           pageTitle: 'Дашборд',
+          menuSection: MenuSections.Dashboard,
         },
       }
     ]
