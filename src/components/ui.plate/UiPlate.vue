@@ -57,7 +57,7 @@ const groups = computed(() => [
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 0.15em;
   }
 
   .region {

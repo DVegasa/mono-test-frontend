@@ -179,7 +179,7 @@ async function loadClient() {
 }
 
 async function saveEdit() {
-  refForm?.value.validate(async (valid) => {
+  refForm.value?.validate(async (valid) => {
     if (!valid) return;
 
     isEditMode.value = false;
@@ -215,7 +215,7 @@ async function deleteClient() {
 }
 
 async function createClient() {
-  refForm?.value.validate(async (valid) => {
+  refForm.value?.validate(async (valid) => {
     if (!valid) return;
 
     const res = await clientsRepo.create({

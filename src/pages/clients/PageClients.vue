@@ -39,7 +39,6 @@
 import ClientsList from "@/components/clients.list/ClientsList.vue";
 import {computed, ref} from "vue";
 import ClientsDetailed from "@/components/clients.detailed/ClientsDetailed.vue";
-import {useNotification} from "@/services/useNotifications";
 import {Icon} from "@iconify/vue";
 import {useRoute, useRouter} from "vue-router";
 import {RouterClients} from "@/pages/clients/routes";

@@ -63,7 +63,8 @@ export const useCarsRepository = () => {
       model,
       color,
       plate,
-      owner_id,
+      isParked,
+      ownerId,
     }) => {
       try {
         isLoading.value = true;
@@ -73,7 +74,8 @@ export const useCarsRepository = () => {
           model,
           color,
           plate,
-          owner_id,
+          isParked,
+          ownerId,
         });
         return res.data;
       } finally {
@@ -86,7 +88,8 @@ export const useCarsRepository = () => {
       model,
       color,
       plate,
-      owner_id,
+      isParked,
+      ownerId,
     }) => {
       try {
         isLoading.value = true;
@@ -95,7 +98,8 @@ export const useCarsRepository = () => {
           model,
           color,
           plate,
-          owner_id,
+          isParked,
+          ownerId,
         });
         return res.data;
       } finally {

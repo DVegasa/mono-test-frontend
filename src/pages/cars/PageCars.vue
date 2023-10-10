@@ -19,16 +19,18 @@
           @car-clicked="carSelected"
           :selected-id="selectedCarId"
       />
-      <CarsDetailed
-          v-if="selectedCarId || creationMode"
-          class="detailed"
-          :car-id="selectedCarId"
-          @deleted="carDeleted"
-          @updated="carUpdated"
-          @created="carCreated"
-          @park-switched="carParkSwitched"
-          :creation-mode="creationMode"
-      />
+      <el-scrollbar height="2000px">
+        <CarsDetailed
+            v-if="selectedCarId || creationMode"
+            class="detailed"
+            :car-id="selectedCarId"
+            @deleted="carDeleted"
+            @updated="carUpdated"
+            @created="carCreated"
+            @park-switched="carParkSwitched"
+            :creation-mode="creationMode"
+        />
+      </el-scrollbar>
     </div>
   </div>
 </template>
@@ -90,6 +92,7 @@ function carSelected(carId) {
 .PageCars {
   display: flex;
   flex-direction: column;
+  height: 90vh;
 
   .btnCreate {
     margin-left: 12px;
