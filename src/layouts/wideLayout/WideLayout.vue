@@ -77,6 +77,7 @@ import AppHeader from "@/layouts/wideLayout/AppHeader.vue";
       left: 0;
       right: 0;
       bottom: 0;
+      max-height: 100vh;
     }
   }
 }

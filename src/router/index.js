@@ -2,11 +2,14 @@ import {routesDashboard} from "@/pages/dashboard/routes";
 import {createRouter, createWebHistory} from "vue-router";
 import {routesClients} from "@/pages/clients/routes";
 import {routesCars} from "@/pages/cars/routes";
+import {routesDev} from "@/pages/dev/routes";
 
 const routes = [
   ...routesDashboard,
   ...routesClients,
   ...routesCars,
+
+  ...routesDev,
 ];
 
 

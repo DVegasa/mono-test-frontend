@@ -1,25 +1,28 @@
 <template>
   <div class="PageCars appPage">
-    <h1>
-      Автомобили
-      <el-button
-          class="btnCreate"
-          type="primary"
-          @click="createCar"
-      >
-        <Icon icon="bx:plus" class="icon"/>
-        Добавить
-      </el-button>
-    </h1>
+    <div class="left">
+      <h1>
+        Автомобили
+        <el-button
+            class="btnCreate"
+            type="primary"
+            @click="createCar"
+        >
+          <Icon icon="bx:plus" class="icon"/>
+          Добавить
+        </el-button>
+      </h1>
 
-    <div class="body">
       <CarsList
           ref="refCarsList"
           class="list"
           @car-clicked="carSelected"
           :selected-id="selectedCarId"
       />
-      <el-scrollbar height="2000px">
+    </div>
+
+    <div class="right">
+      <el-scrollbar>
         <CarsDetailed
             v-if="selectedCarId || creationMode"
             class="detailed"
@@ -91,28 +94,30 @@ function carSelected(carId) {
 
 .PageCars {
   display: flex;
-  flex-direction: column;
-  height: 90vh;
 
-  .btnCreate {
-    margin-left: 12px;
-  }
-
-  .body {
+  .left {
+    width: 560px;
     display: flex;
-    flex-direction: row;
-    gap: 12px;
-    //height: 100%;
-    flex: 1;
+    flex-direction: column;
 
-    .list {
-      width: 560px;
-      border-right: 1px solid $color-border;
+    .btnCreate {
+      margin-left: 12px;
     }
 
+    .list {
+      border-right: 1px solid $color-border;
+      height: 100%;
+    }
+  }
+
+  .right {
+    flex: 1;
+    padding-left: 20px;
+    padding-top: 20px;
+    margin-top: 64px;
+
     .detailed {
-      flex: 1;
-      max-width: 600px;
+      max-width: 700px;
     }
   }
 }

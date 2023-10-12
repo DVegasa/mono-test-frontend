@@ -49,6 +49,7 @@
 
           <el-form-item label="Владелец" required prop="ownerId">
             <ClientsPicker
+                class="clientPicker"
                 v-model="formData.ownerId"
             />
           </el-form-item>
@@ -286,6 +287,10 @@ async function createCar() {
 
 .CarsDetailed {
 
+  :deep(div.el-form-item__content) {
+    line-height: unset;
+  }
+
   .buttons {
     display: flex;
     align-items: center;
@@ -328,6 +333,11 @@ async function createCar() {
     h2 {
       margin-bottom: 5px;
     }
+  }
+
+  .clientPicker {
+    width: 100%;
+    height: 1000%;
   }
 }
 </style>
