@@ -109,6 +109,7 @@ import {RouterClients} from "@/pages/clients/routes";
 import {useNotification} from "@/services/useNotifications";
 import {carValidationRules} from "@/rules/carValidationRules";
 import ClientsPicker from "@/components/clients.picker/ClientsPicker.vue";
+import {normalizePlate} from "@/utils/plates";
 
 const props = defineProps({
   carId: {
@@ -149,6 +150,7 @@ const parkingRepo = useParkingRepository();
 
 const owner = ref(null);
 const car = ref(null);
+const pickedClient = ref(null);
 
 const isEditMode = ref(false);
 const refForm = ref(null);
@@ -171,19 +173,7 @@ const formRules = reactive({
 });
 
 watch([formData], () => {
-  // Замена русских букв на английские
-  formData.plate = formData.plate.replace('А', 'A');
-  formData.plate = formData.plate.replace('В', 'B');
-  formData.plate = formData.plate.replace('Е', 'E');
-  formData.plate = formData.plate.replace('К', 'K');
-  formData.plate = formData.plate.replace('М', 'M');
-  formData.plate = formData.plate.replace('Н', 'H');
-  formData.plate = formData.plate.replace('О', 'O');
-  formData.plate = formData.plate.replace('Р', 'P');
-  formData.plate = formData.plate.replace('С', 'C');
-  formData.plate = formData.plate.replace('Т', 'T');
-  formData.plate = formData.plate.replace('У', 'Y');
-  formData.plate = formData.plate.replace('Х', 'X');
+  formData.plate = normalizePlate(formData?.plate);
 });
 
 async function loadCar() {
@@ -204,8 +194,10 @@ async function loadCar() {
 
 async function loadOwner() {
   if (car.value?.ownerId) {
+    console.log(car.value?.ownerId);
     const res = await clientsRepo.get({id: car.value?.ownerId});
     owner.value = res.data;
+    pickedClient.value = owner.value;
   }
 }
 
@@ -236,6 +228,7 @@ async function saveEdit() {
     });
 
     await loadCar();
+    await loadOwner();
     useNotification().show({
       type: 'success',
       message: 'Информация обновлена'

@@ -9,6 +9,7 @@
     <ClientsList
         class="list"
         :selected-id="props?.modelValue"
+        @client-clicked="(clientId) => emit('update:modelValue', clientId)"
     />
   </div>
 </template>
@@ -26,7 +27,7 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 
 const clientsRepo = useClientsRepository();
 

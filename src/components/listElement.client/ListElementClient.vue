@@ -1,7 +1,13 @@
 <template>
   <div
       :class="{ListElementClient: true, selected: props?.selected}">
-    <img :src="'https://i.pravatar.cc/150?u='+props?.client?.id" class="logo" height="35" width="35"/>
+    <img
+        v-show="props?.client"
+        :src="'https://i.pravatar.cc/150?u='+props?.client?.id"
+        class="logo"
+        height="35"
+        width="35"
+    />
 
     <div class="body">
       <div class="name">{{ props?.client?.name }}</div>

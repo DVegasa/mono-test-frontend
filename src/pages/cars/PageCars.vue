@@ -31,7 +31,6 @@
             @updated="carUpdated"
             @created="carCreated"
             @park-switched="carParkSwitched"
-            :creation-mode="creationMode"
         />
       </el-scrollbar>
     </div>
@@ -78,8 +77,9 @@ function carParkSwitched() {
 }
 
 function createCar() {
-  router.push(RouterCars.cars());
+  selectedCarId.value = null;
   creationMode.value = true;
+  router.push(RouterCars.cars());
 }
 
 function carSelected(carId) {
