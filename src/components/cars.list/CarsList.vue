@@ -1,20 +1,28 @@
 <template>
   <div class="CarsList" v-loading="carsRepo.isLoading.value">
-    <div class="search">
-      <el-input
-          v-model="search"
-          placeholder="Поиск по марке, модели или рег.знаку"
-          clearable
-          @clear="loadCars"
-          @keydown.enter="loadCars"
-      />
-      <el-button
-          type="primary"
-          v-if="showSearchButton"
-          @click="loadCars"
+    <div class="filters">
+      <el-checkbox
+          v-model="onlyParked"
       >
-        Искать
-      </el-button>
+        Показывать только припаркованные
+      </el-checkbox>
+
+      <div class="search">
+        <el-input
+            v-model="search"
+            placeholder="Поиск по марке, модели или рег.знаку"
+            clearable
+            @clear="loadCars"
+            @keydown.enter="loadCars"
+        />
+        <el-button
+            type="primary"
+            v-if="showSearchButton"
+            @click="loadCars"
+        >
+          Искать
+        </el-button>
+      </div>
     </div>
 
     <el-scrollbar class="cars" height="none">
@@ -61,6 +69,7 @@ const props = defineProps({
   }
 })
 const _prevOwnerId = ref(null);
+const onlyParked = ref(false);
 
 defineExpose({
   refreshData: async () => {
@@ -82,7 +91,7 @@ onMounted(() => {
   loadCars();
 })
 
-watch([curPage, pageSize], () => {
+watch([curPage, pageSize, onlyParked], () => {
   loadCars();
 })
 
@@ -101,6 +110,7 @@ async function loadCars() {
     perPage: pageSize.value,
     q: search.value,
     ownerId: props?.ownerId,
+    onlyParked: onlyParked.value,
   })
 
   cars.value = res.data.items;
@@ -119,21 +129,25 @@ const showSearchButton = computed(() => {
 .CarsList {
   position: relative;
 
-  .search {
+  .filters {
     padding: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
 
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
   }
 
   .cars {
     position: absolute;
-    top: 50px;
+    top: 84px;
     left: 0;
     right: 0;
     bottom: 50px;

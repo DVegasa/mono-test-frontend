@@ -1,5 +1,6 @@
 import {ref} from "vue";
 import {useApi} from "@/services/useApi";
+import {apiBoolean} from "@/utils/api";
 
 export const useCarsRepository = () => {
   const isLoading = ref(false)
@@ -13,6 +14,7 @@ export const useCarsRepository = () => {
       perPage = 10,
       q = null,
       ownerId = null,
+      onlyParked = null,
     }) => {
       try {
         isLoading.value = true;
@@ -22,6 +24,7 @@ export const useCarsRepository = () => {
           perPage,
           q,
           ownerId,
+          onlyParked: apiBoolean(onlyParked),
         });
         return res.data;
       } finally {
