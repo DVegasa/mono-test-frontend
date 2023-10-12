@@ -165,7 +165,7 @@ const isEditable = computed(() => {
 });
 
 async function loadClient() {
-  if (props?.clientId) {
+  if (props?.clientId && !props?.creationMode) {
     const res = await clientsRepo.get({id: props?.clientId});
     client.value = res.data;
   } else {

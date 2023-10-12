@@ -27,6 +27,7 @@
             v-if="selectedCarId || creationMode"
             class="detailed"
             :car-id="selectedCarId"
+            :creation-mode="creationMode"
             @deleted="carDeleted"
             @updated="carUpdated"
             @created="carCreated"
@@ -40,7 +41,7 @@
 
 <script setup>
 import {Icon} from "@iconify/vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import CarsList from "@/components/cars.list/CarsList.vue";
 import CarsDetailed from "@/components/cars.detailed/CarsDetailed.vue";
 import ClientsDetailed from "@/components/clients.detailed/ClientsDetailed.vue";
@@ -54,7 +55,11 @@ const router = useRouter();
 const selectedCarId = computed(() => {
   return route.params?.id;
 });
-const creationMode = ref(false);
+
+const creationMode = computed(() => {
+  return route.name === RouterCars.carsNew().name;
+});
+
 const refCarsList = ref(null);
 
 function carDeleted() {
@@ -69,7 +74,6 @@ function carUpdated() {
 function carCreated() {
   refCarsList.value.refreshData();
   router.push(RouterCars.cars());
-  creationMode.value = false;
 }
 
 function carParkSwitched() {
@@ -78,12 +82,10 @@ function carParkSwitched() {
 
 function createCar() {
   selectedCarId.value = null;
-  creationMode.value = true;
-  router.push(RouterCars.cars());
+  router.push(RouterCars.carsNew());
 }
 
 function carSelected(carId) {
-  creationMode.value = false;
   router.push(RouterCars.carsDetailed(carId))
 }
 </script>

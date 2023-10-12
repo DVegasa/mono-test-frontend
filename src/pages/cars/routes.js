@@ -14,6 +14,11 @@ export const RouterCars = {
       }
     }
   },
+  carsNew: () => {
+    return {
+      name: 'cars.new',
+    }
+  }
 }
 
 export const routesCars = [
@@ -31,6 +36,15 @@ export const routesCars = [
         },
       },
       {
+        path: 'cars/new',
+        name: 'cars.new',
+        component: () => import("@/pages/cars/PageCars.vue"),
+        meta: {
+          pageTitle: 'Новый авто',
+          menuSection: MenuSections.Cars,
+        }
+      },
+      {
         path: 'cars/:id',
         name: 'cars.detailed',
         component: () => import("@/pages/cars/PageCars.vue"),
@@ -38,7 +52,7 @@ export const routesCars = [
           pageTitle: 'Автомобили',
           menuSection: MenuSections.Cars,
         }
-      }
+      },
     ]
   }
 ];

@@ -177,7 +177,7 @@ watch([formData], () => {
 });
 
 async function loadCar() {
-  if (props?.carId) {
+  if (props?.carId && !props?.creationMode) {
     const res = await carsRepo.get({id: props?.carId});
     car.value = res.data
   } else {
@@ -193,11 +193,12 @@ async function loadCar() {
 }
 
 async function loadOwner() {
-  if (car.value?.ownerId) {
-    console.log(car.value?.ownerId);
+  if (car.value?.ownerId && !props?.creationMode) {
     const res = await clientsRepo.get({id: car.value?.ownerId});
     owner.value = res.data;
     pickedClient.value = owner.value;
+  } else {
+    owner.value = null;
   }
 }
 

@@ -49,7 +49,9 @@ const router = useRouter();
 const selectedClientId = computed(() => {
   return route.params?.id;
 });
-const creationMode = ref(false);
+const creationMode = computed(() => {
+  return route.name === RouterClients.clientsNew().name;
+});
 const refClientsList = ref(null);
 
 function clientDeleted() {
@@ -64,16 +66,13 @@ function clientUpdated() {
 function clientCreated() {
   refClientsList.value.refreshData();
   router.push(RouterClients.clients());
-  creationMode.value = false;
 }
 
 function createClient() {
-  router.push(RouterClients.clients());
-  creationMode.value = true;
+  router.push(RouterClients.clientsNew());
 }
 
 function clientSelected(clientId) {
-  creationMode.value = false;
   router.push(RouterClients.clientsDetailed(clientId));
 }
 </script>

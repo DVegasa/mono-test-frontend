@@ -13,6 +13,11 @@ export const RouterClients = {
         id: clientId,
       }
     }
+  },
+  clientsNew: () => {
+    return {
+      name: 'clients.new',
+    }
   }
 }
 
@@ -27,6 +32,15 @@ export const routesClients = [
         component: () => import("@/pages/clients/PageClients.vue"),
         meta: {
           pageTitle: 'Клиенты',
+          menuSection: MenuSections.Clients,
+        },
+      },
+      {
+        path: 'clients/new',
+        name: 'clients.new',
+        component: () => import("@/pages/clients/PageClients.vue" ),
+        meta: {
+          pageTitle: 'Новый клиент',
           menuSection: MenuSections.Clients,
         },
       },
