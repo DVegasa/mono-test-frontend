@@ -2,21 +2,24 @@
   <div
       class="PageDashboard appPage"
   >
-    <h1>Дашборд</h1>
+    <h1 class="header">
+      Дашборд
+      <div v-loading="serviceStat.isLoading.value" class="loading"/>
+    </h1>
 
     <el-scrollbar class="page">
       <div class="stats">
-        <el-statistic v-loading="statsRepo.isLoading.value" :value="stats.clientsAll" class="stat">
+        <el-statistic :value="serviceStat.stats?.clientsAll" class="stat">
           <template #title>
             Клиентов в системе
           </template>
         </el-statistic>
-        <el-statistic v-loading="statsRepo.isLoading.value" :value="stats.carsAll" class="stat">
+        <el-statistic :value="serviceStat.stats?.carsAll" class="stat">
           <template #title>
             Автомобилей в системе
           </template>
         </el-statistic>
-        <el-statistic v-loading="statsRepo.isLoading.value" :value="stats.carsParked" class="stat">
+        <el-statistic :value="serviceStat.stats?.carsParked" class="stat">
           <template #title>
             Автомобилей на парковке сейчас
           </template>
@@ -29,27 +32,9 @@
 
 <script setup>
 
-import {useStatsRepository} from "@/repositories/stats";
-import {onMounted, reactive} from "vue";
+import {serviceStats} from "@/services/serviceStats";
 
-const statsRepo = useStatsRepository();
-
-const stats = reactive({
-  carsAll: null,
-  carsParked: null,
-  clientsAll: null,
-});
-
-onMounted(() => {
-  loadStats()
-})
-
-async function loadStats() {
-  const res = await statsRepo.getAll();
-  stats.carsAll = res.data.cars.all;
-  stats.carsParked = res.data.cars.parked;
-  stats.clientsAll = res.data.clients.all;
-}
+const serviceStat = serviceStats();
 
 </script>
 
@@ -61,6 +46,17 @@ async function loadStats() {
 .PageDashboard {
   display: flex;
   flex-direction: column;
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .loading {
+      height: 50px;
+      width: 50px;
+    }
+  }
 
   .page {
     margin: 20px;

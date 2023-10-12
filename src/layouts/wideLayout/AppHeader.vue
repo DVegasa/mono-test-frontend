@@ -7,12 +7,12 @@
 
     <el-tooltip
         content="Обновляется каждые несколько секунд"
-        v-if="stats?.carsParked"
+        v-if="stats.carsParked"
     >
       <div class="stats">
         <transition appear>
           <div class="stat">
-            Автомобилей на парковке: {{ stats?.carsParked }}
+            Автомобилей на парковке: {{ stats.carsParked }}
           </div>
         </transition>
         <Icon icon="bx:help-circle" class="icon"/>
@@ -23,35 +23,11 @@
 
 
 <script setup>
-
-import {useStatsRepository} from "@/repositories/stats";
-import {onMounted, reactive} from "vue";
 import {Icon} from "@iconify/vue";
+import {serviceStats} from "@/services/serviceStats";
 
-const statsRepo = useStatsRepository();
+const stats = serviceStats().stats;
 
-const stats = reactive({
-  carsAll: null,
-  carsParked: null,
-  clientsAll: null,
-});
-
-onMounted(() => {
-  refreshStats()
-})
-
-
-async function loadStats() {
-  const res = await statsRepo.getAll();
-  stats.carsAll = res.data.cars.all;
-  stats.carsParked = res.data.cars.parked;
-  stats.clientsAll = res.data.clients.all;
-}
-
-async function refreshStats() {
-  await loadStats();
-  setTimeout(refreshStats, 5000);
-}
 </script>
 
 
