@@ -1,29 +1,81 @@
-# mono-test-frontend
+# Тестовое задание в MONO (фронтенд)
 
-This template should help get you started developing with Vue 3 in Vite.
+[![Static Badge](https://img.shields.io/badge/by-Ed%20"DVegasa"%20Khalturin-black)
+](https://www.linkedin.com/in/dvegasa/)
 
-## Recommended IDE Setup
+[![Static Badge](https://img.shields.io/badge/Backend-https://github.com/DVegasa/mono--test--backend-grey?logo=laravel)](https://github.com/DVegasa/mono-test-backend)
+[![Static Badge](https://img.shields.io/badge/Frontend-https://github.com/DVegasa/mono--test--frontend-grey?logo=vuedotjs)](https://github.com/DVegasa/mono-test-frontend)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+![cover](docs/cover.png)
 
-## Customize configuration
+# Установка
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+`npm i`
 
-## Project Setup
+# Запуск
 
-```sh
-npm install
-```
+`npm run dev`
 
-### Compile and Hot-Reload for Development
+# ТЗ
 
-```sh
-npm run dev
-```
+Попробуйте сделать следующее задание. Результат работы необходимо разместить в публичном репозитории bitbucket или
+Github. Ссылку прислать на электронную почту info@monodigital.ru
 
-### Compile and Minify for Production
+**Задание:**
 
-```sh
-npm run build
-```
+Реализовать систему учёта клиентов автостоянки на фреймворке Laravel. Система должна иметь функции создания,
+редактирования, удаления данных о клиентах и их автомобилях, (*)а также должна быть возможность ведения учёта того,
+сколько и какие автомобили находится на стоянке. При написании проекта следует обратить внимание на защиту от XSS атак и
+SQL–инъекций.
+
+**Основные сущности:**
+
+Клиент
+
+Автомобиль
+
+**Атрибуты сущности "Клиент":**
+
+ФИО (мин 3 символа)
+
+Пол (обязательный)
+
+Телефон (обязательный, уникальный)
+
+Адрес
+
+Автомобил(ь/и) (обязательный, мин 1)
+
+**Атрибуты сущности "Автомобиль":**
+
+Марка (обязательный)
+
+Моделель (обязательный)
+
+Цвет кузова (обязательный)
+
+Гос Номер РФ (обязательный, уникальный)
+
+Флаг статуса автомобиля означающий, что авто находится или отсутствует на стоянке (обязательный)
+
+**Необходимые страницы:**
+
+- Просмотр всех клиентов и их машин с пагинацией и ссылками на переходы к страницам редактирования и кнопками удаления
+  соответствующих сущностей
+- Страница создания клиента и данных о его машинах
+- Страница редактирования клиента и данных о его машинах
+
+(*) - Просмотр всех автомобилей, которые стоят на автостоянке, на странице должна быть форма ввода существующего клиента
+на стоянку. Форма состоит из 2х выпадающих списков, первый - клиенты, которые есть в системе, второй - автомобили
+выбранного клиента. Также должны быть кнопки при клике на которые меняется статус автомобиля (рис 2)
+
+**Требования к используемым технологиям:**
+
+PHP 5.6 и выше
+
+MySQL 5.6 и выше
+
+**Разрешено использовать фреймворки:**
+
+Codeigniter или Laravel последних стабильных версий. Если используется laravel, то все запросы к БД должны быть написаны
+через QueryBuilder или Raw Query (т. е. без методов Eloquent ORM).
