@@ -2,6 +2,8 @@
   <div class="CarsDetailed">
     <div class="car" v-loading="carsRepo.isLoading.value">
 
+      <ErrorBoxApiException :exception="apiException" class="exception"/>
+
       <el-form
           class="fields"
           label-position="top"
@@ -110,6 +112,8 @@ import {useNotification} from "@/services/useNotifications";
 import {carValidationRules} from "@/rules/carValidationRules";
 import ClientsPicker from "@/components/clients.picker/ClientsPicker.vue";
 import {normalizePlate} from "@/utils/plates";
+import ErrorBoxApiException from "@/components/errorBox.apiException/ErrorBoxApiException.vue";
+import {RouterCars} from "@/pages/cars/routes";
 
 const props = defineProps({
   carId: {
@@ -148,6 +152,8 @@ const clientsRepo = useClientsRepository();
 const carsRepo = useCarsRepository();
 const parkingRepo = useParkingRepository();
 
+const apiException = ref(null);
+
 const owner = ref(null);
 const car = ref(null);
 const pickedClient = ref(null);
@@ -178,8 +184,14 @@ watch([formData], () => {
 
 async function loadCar() {
   if (props?.carId && !props?.creationMode) {
-    const res = await carsRepo.get({id: props?.carId});
-    car.value = res.data
+    try {
+      const res = await carsRepo.get({id: props?.carId});
+      car.value = res.data
+    } catch (e) {
+      useNotification().showApiException(e);
+      router.push(RouterCars.cars());
+      return;
+    }
   } else {
     car.value = null;
   }
@@ -215,26 +227,29 @@ function ownerClicked(clientId) {
 
 async function saveEdit() {
   refForm.value?.validate(async (valid) => {
-    if (!valid) return;
+    try {
+      if (!valid) return;
+      isEditMode.value = false;
+      const res = await carsRepo.update({
+        id: props?.carId,
+        brand: formData?.brand,
+        model: formData?.model,
+        color: formData?.color,
+        plate: formData?.plate,
+        isParked: formData?.isParked,
+        ownerId: formData?.ownerId,
+      });
 
-    isEditMode.value = false;
-    const res = await carsRepo.update({
-      id: props?.carId,
-      brand: formData?.brand,
-      model: formData?.model,
-      color: formData?.color,
-      plate: formData?.plate,
-      isParked: formData?.isParked,
-      ownerId: formData?.ownerId,
-    });
-
-    await loadCar();
-    await loadOwner();
-    useNotification().show({
-      type: 'success',
-      message: 'Информация обновлена'
-    });
-    emit('updated');
+      await loadCar();
+      await loadOwner();
+      useNotification().show({
+        type: 'success',
+        message: 'Информация обновлена'
+      });
+      emit('updated');
+    } catch (e) {
+      apiException.value = e;
+    }
   })
 }
 
@@ -254,22 +269,25 @@ async function deleteCar() {
 
 async function createCar() {
   refForm.value?.validate(async (valid) => {
-    if (!valid) return;
+    try {
+      if (!valid) return;
+      const res = await carsRepo.create({
+        brand: formData?.brand,
+        model: formData?.model,
+        color: formData?.color,
+        plate: formData?.plate,
+        isParked: formData?.isParked,
+        ownerId: formData?.ownerId,
+      })
 
-    const res = await carsRepo.create({
-      brand: formData?.brand,
-      model: formData?.model,
-      color: formData?.color,
-      plate: formData?.plate,
-      isParked: formData?.isParked,
-      ownerId: formData?.ownerId,
-    })
-
-    useNotification().show({
-      type: 'success',
-      message: 'Машина добавлена',
-    })
-    emit('created');
+      useNotification().show({
+        type: 'success',
+        message: 'Машина добавлена',
+      })
+      emit('created');
+    } catch (e) {
+      apiException.value = e;
+    }
   })
 }
 
@@ -296,6 +314,10 @@ async function createCar() {
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    .exception {
+      margin-bottom: 12px;
+    }
 
     .top {
       display: flex;

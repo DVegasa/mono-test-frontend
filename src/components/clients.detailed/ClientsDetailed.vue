@@ -1,6 +1,8 @@
 <template>
   <div class="ClientsDetailed">
     <div class="info" v-loading="clientsRepo.isLoading.value">
+      <ErrorBoxApiException :exception="apiException" class="exception"/>
+
       <div class="ava">
         <img
             v-if="!creationMode"
@@ -111,10 +113,11 @@ import {useClientsRepository} from "@/repositories/clients";
 import UiCaptionedValue from "@/components/ui.captionedValue/UiCaptionedValue.vue";
 import {useNotification} from "@/services/useNotifications";
 import {clientValidationRules} from "@/rules/clientValidationRules";
-import {useCarsRepository} from "@/repositories/cars";
 import CarsList from "@/components/cars.list/CarsList.vue";
 import {useRouter} from "vue-router";
 import {RouterCars} from "@/pages/cars/routes";
+import ErrorBoxApiException from "@/components/errorBox.apiException/ErrorBoxApiException.vue";
+import {RouterClients} from "@/pages/clients/routes";
 
 const props = defineProps({
   clientId: {
@@ -131,9 +134,10 @@ const emit = defineEmits(['deleted', 'updated', 'created']);
 
 const router = useRouter();
 const clientsRepo = useClientsRepository();
-const carsRepo = useCarsRepository();
 const client = ref(null);
 const cars = ref(null);
+
+const apiException = ref(null);
 
 const isEditMode = ref(false);
 const refForm = ref(null);
@@ -166,8 +170,14 @@ const isEditable = computed(() => {
 
 async function loadClient() {
   if (props?.clientId && !props?.creationMode) {
-    const res = await clientsRepo.get({id: props?.clientId});
-    client.value = res.data;
+    try {
+      const res = await clientsRepo.get({id: props?.clientId});
+      client.value = res.data;
+    } catch (e) {
+      useNotification().showApiException(e);
+      router.push(RouterClients.clients());
+      return;
+    }
   } else {
     client.value = null;
   }
@@ -180,23 +190,27 @@ async function loadClient() {
 
 async function saveEdit() {
   refForm.value?.validate(async (valid) => {
-    if (!valid) return;
+    try {
+      if (!valid) return;
 
-    isEditMode.value = false;
-    const res = await clientsRepo.update({
-      id: props?.clientId,
-      name: formData.name,
-      phone: formData.phone,
-      address: formData.address,
-      sex: formData.sex,
-    })
+      isEditMode.value = false;
+      const res = await clientsRepo.update({
+        id: props?.clientId,
+        name: formData.name,
+        phone: formData.phone,
+        address: formData.address,
+        sex: formData.sex,
+      })
 
-    await loadClient();
-    useNotification().show({
-      type: 'success',
-      message: 'Информация обновлена'
-    })
-    emit('updated');
+      await loadClient();
+      useNotification().show({
+        type: 'success',
+        message: 'Информация обновлена'
+      })
+      emit('updated');
+    } catch (e) {
+      apiException.value = e;
+    }
   });
 }
 
@@ -216,20 +230,24 @@ async function deleteClient() {
 
 async function createClient() {
   refForm.value?.validate(async (valid) => {
-    if (!valid) return;
+    try {
+      if (!valid) return;
 
-    const res = await clientsRepo.create({
-      name: formData.name,
-      phone: formData.phone,
-      address: formData.address,
-      sex: formData.sex,
-    });
+      const res = await clientsRepo.create({
+        name: formData.name,
+        phone: formData.phone,
+        address: formData.address,
+        sex: formData.sex,
+      });
 
-    useNotification().show({
-      type: 'success',
-      message: 'Клиент добавлен'
-    });
-    emit('created');
+      useNotification().show({
+        type: 'success',
+        message: 'Клиент добавлен'
+      });
+      emit('created');
+    } catch (e) {
+      apiException.value = e;
+    }
   })
 }
 
@@ -249,6 +267,10 @@ function carClicked(carId) {
   .info {
     display: flex;
     gap: 20px;
+
+    .exception {
+      margin-bottom: 12px;
+    }
 
     .ava {
       .image {
