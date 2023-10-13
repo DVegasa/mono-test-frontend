@@ -40,14 +40,12 @@
 
 
 <script setup>
-import {Icon} from "@iconify/vue";
-import {computed, ref, watch} from "vue";
-import CarsList from "@/components/cars.list/CarsList.vue";
-import CarsDetailed from "@/components/cars.detailed/CarsDetailed.vue";
-import ClientsDetailed from "@/components/clients.detailed/ClientsDetailed.vue";
-import {useRoute, useRouter} from "vue-router";
-import {RouterCars} from "@/pages/cars/routes";
-import {RouterClients} from "@/pages/clients/routes";
+import {Icon} from '@iconify/vue';
+import {computed, ref} from 'vue';
+import CarsList from '@/components/cars.list/CarsList.vue';
+import CarsDetailed from '@/components/cars.detailed/CarsDetailed.vue';
+import {useRoute, useRouter} from 'vue-router';
+import {RouterCars} from '@/pages/cars/routes';
 
 const route = useRoute();
 const router = useRouter();
@@ -86,7 +84,7 @@ function createCar() {
 }
 
 function carSelected(carId) {
-  router.push(RouterCars.carsDetailed(carId))
+  router.push(RouterCars.carsDetailed(carId));
 }
 </script>
 

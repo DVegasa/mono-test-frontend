@@ -1,7 +1,7 @@
 export const validators = {
   phone: (rule, value, callback) => {
     if (!value) return callback(new Error('Укажите значение'));
-    if (!value?.startsWith('+')) return callback(new Error('Телефон должен начинаться с +'))
+    if (!value?.startsWith('+')) return callback(new Error('Телефон должен начинаться с +'));
     callback();
   },
 
@@ -11,4 +11,4 @@ export const validators = {
     if (!value.match(russianCivilPlateRegex)) return callback(new Error('Неправильный рег.знак'));
     callback();
   }
-}
+};

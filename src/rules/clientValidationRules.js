@@ -1,4 +1,4 @@
-import {validators} from "@/rules/validators";
+import {validators} from '@/rules/validators';
 
 export const clientValidationRules = {
   name: [
@@ -6,7 +6,7 @@ export const clientValidationRules = {
       required: true,
       min: 3,
       max: 255,
-      message: "От 3 до 255 символов",
+      message: 'От 3 до 255 символов',
       trigger: 'blur',
     },
   ],
@@ -15,7 +15,7 @@ export const clientValidationRules = {
       required: true,
       type: 'string',
       trigger: 'blur',
-      message: "Должен начинаться с + и быть до 15 символов",
+      message: 'Должен начинаться с + и быть до 15 символов',
     },
     {
       validator: validators.phone,
@@ -32,8 +32,8 @@ export const clientValidationRules = {
     {
       required: false,
       max: 255,
-      message: "До 255 символов",
+      message: 'До 255 символов',
       trigger: 'blur',
     },
   ]
-}
+};

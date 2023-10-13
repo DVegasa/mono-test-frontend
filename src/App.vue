@@ -4,8 +4,8 @@
 
 
 <script setup>
-import moment from "moment";
-import {serviceStats} from "@/services/serviceStats";
+import moment from 'moment';
+import {serviceStats} from '@/services/serviceStats';
 
 moment.locale('ru');
 

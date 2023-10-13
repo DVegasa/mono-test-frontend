@@ -1,8 +1,8 @@
-import {ref} from "vue";
-import {useApi} from "@/services/useApi";
+import {ref} from 'vue';
+import {useApi} from '@/services/useApi';
 
 export const useClientsRepository = () => {
-  const isLoading = ref(false)
+  const isLoading = ref(false);
   const api = useApi();
 
   return {
@@ -48,7 +48,7 @@ export const useClientsRepository = () => {
         isLoading.value = true;
         const res = await api.post('clients/delete', {}, {
           clientId: id,
-        })
+        });
         return res.data;
       } finally {
         isLoading.value = false;
@@ -96,5 +96,5 @@ export const useClientsRepository = () => {
         isLoading.value = false;
       }
     }
-  }
-}
+  };
+};

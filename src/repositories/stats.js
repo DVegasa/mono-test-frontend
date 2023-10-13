@@ -1,8 +1,8 @@
-import {ref} from "vue";
-import {useApi} from "@/services/useApi";
+import {ref} from 'vue';
+import {useApi} from '@/services/useApi';
 
 export const useStatsRepository = () => {
-  const isLoading = ref(false)
+  const isLoading = ref(false);
   const api = useApi();
 
   return {
@@ -18,5 +18,5 @@ export const useStatsRepository = () => {
         isLoading.value = false;
       }
     }
-  }
-}
+  };
+};

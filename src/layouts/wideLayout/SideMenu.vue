@@ -20,13 +20,12 @@
 
 
 <script setup>
-import {ref} from "vue";
-import {Icon} from "@iconify/vue";
-import {useRoute} from "vue-router";
-import {MenuSections} from "@/layouts/wideLayout/MenuSections";
-import {RouterDashboard} from "@/pages/dashboard/routes";
-import {RouterClients} from "@/pages/clients/routes";
-import {RouterCars} from "@/pages/cars/routes";
+import {Icon} from '@iconify/vue';
+import {useRoute} from 'vue-router';
+import {MenuSections} from '@/layouts/wideLayout/MenuSections';
+import {RouterDashboard} from '@/pages/dashboard/routes';
+import {RouterClients} from '@/pages/clients/routes';
+import {RouterCars} from '@/pages/cars/routes';
 
 const route = useRoute();
 
@@ -49,7 +48,7 @@ const links = [
     to: RouterCars.cars(),
     menuSection: MenuSections.Cars,
   },
-]
+];
 
 function isSelected(menuSection) {
   return menuSection === route?.meta?.menuSection;

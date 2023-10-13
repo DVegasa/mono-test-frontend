@@ -36,12 +36,12 @@
 
 
 <script setup>
-import ClientsList from "@/components/clients.list/ClientsList.vue";
-import {computed, ref} from "vue";
-import ClientsDetailed from "@/components/clients.detailed/ClientsDetailed.vue";
-import {Icon} from "@iconify/vue";
-import {useRoute, useRouter} from "vue-router";
-import {RouterClients} from "@/pages/clients/routes";
+import ClientsList from '@/components/clients.list/ClientsList.vue';
+import {computed, ref} from 'vue';
+import ClientsDetailed from '@/components/clients.detailed/ClientsDetailed.vue';
+import {Icon} from '@iconify/vue';
+import {useRoute, useRouter} from 'vue-router';
+import {RouterClients} from '@/pages/clients/routes';
 
 const route = useRoute();
 const router = useRouter();

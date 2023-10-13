@@ -11,15 +11,15 @@
 
 
 <script setup>
-import {computed} from "vue";
-import {useApiExceptionTranslator} from "@/services/useApiExceptionTranslator";
+import {computed} from 'vue';
+import {useApiExceptionTranslator} from '@/services/useApiExceptionTranslator';
 
 const props = defineProps({
   exception: {
     type: Object,
     required: true,
   }
-})
+});
 
 const title = computed(() => {
   return useApiExceptionTranslator(props?.exception).title();
@@ -27,7 +27,7 @@ const title = computed(() => {
 
 const description = computed(() => {
   return useApiExceptionTranslator(props?.exception).description();
-})
+});
 </script>
 
 

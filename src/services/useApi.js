@@ -1,10 +1,8 @@
-import {ref, watch} from "vue";
-import axios from "axios";
-import {get, merge} from "lodash";
-import {useNotification} from "@/services/useNotifications.js";
-import {NoResponseException} from "@/exceptions/NoResponseException";
-import {RequestException} from "@/exceptions/RequestException";
-import {ApiException} from "@/exceptions/ApiException";
+import {ref} from 'vue';
+import axios from 'axios';
+import {NoResponseException} from '@/exceptions/NoResponseException';
+import {RequestException} from '@/exceptions/RequestException';
+import {ApiException} from '@/exceptions/ApiException';
 
 
 const client = axios.create({
@@ -12,20 +10,20 @@ const client = axios.create({
 });
 
 export const useApi = () => {
-  const isLoading = ref(false)
+  const isLoading = ref(false);
 
   const get = async (endpoint, query = {}) => {
     return await call('GET', endpoint, {
       params: query,
     });
-  }
+  };
 
   const post = async (endpoint, query = {}, payload = {}) => {
     return await call('POST', endpoint, {
       params: query,
       data: payload,
     });
-  }
+  };
 
   const call = async (method, endpoint, config) => {
     try {
@@ -54,12 +52,12 @@ export const useApi = () => {
     } finally {
       isLoading.value = false;
     }
-  }
+  };
 
   return {
     isLoading,
     get,
     post,
     call,
-  }
-}
+  };
+};

@@ -14,7 +14,7 @@
 
         <div class="box">
           box
-          <div class="text" v-for="i in 50">Lorem ipsum {{ i }}</div>
+          <div class="text" v-for="i in 50" :key="i">Lorem ipsum {{ i }}</div>
         </div>
       </el-scrollbar>
     </div>

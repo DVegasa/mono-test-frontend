@@ -32,7 +32,7 @@
 
 <script setup>
 
-import {serviceStats} from "@/services/serviceStats";
+import {serviceStats} from '@/services/serviceStats';
 
 const serviceStat = serviceStats();
 

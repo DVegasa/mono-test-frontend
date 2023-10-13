@@ -1,4 +1,4 @@
-import {AppException} from "@/exceptions/AppException";
+import {AppException} from '@/exceptions/AppException';
 
 export class NoResponseException extends AppException {
   constructor(message) {

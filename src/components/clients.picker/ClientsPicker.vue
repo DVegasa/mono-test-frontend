@@ -16,10 +16,10 @@
 
 
 <script setup>
-import ClientsList from "@/components/clients.list/ClientsList.vue";
-import {onMounted, ref, watch} from "vue";
-import ListElementClient from "@/components/listElement.client/ListElementClient.vue";
-import {useClientsRepository} from "@/repositories/clients";
+import ClientsList from '@/components/clients.list/ClientsList.vue';
+import {onMounted, ref, watch} from 'vue';
+import ListElementClient from '@/components/listElement.client/ListElementClient.vue';
+import {useClientsRepository} from '@/repositories/clients';
 
 const props = defineProps({
   modelValue: {
@@ -35,11 +35,11 @@ const client = ref(null);
 
 onMounted(() => {
   loadClient();
-})
+});
 
 watch([props], () => {
   loadClient();
-})
+});
 
 async function loadClient() {
   if (!props?.modelValue) return;

@@ -1,9 +1,9 @@
-import {routesDashboard} from "@/pages/dashboard/routes";
-import {createRouter, createWebHistory} from "vue-router";
-import {routesClients} from "@/pages/clients/routes";
-import {routesCars} from "@/pages/cars/routes";
-import {routesDev} from "@/pages/dev/routes";
-import {routesErrors} from "@/pages/errors/routes";
+import {routesDashboard} from '@/pages/dashboard/routes';
+import {createRouter, createWebHistory} from 'vue-router';
+import {routesClients} from '@/pages/clients/routes';
+import {routesCars} from '@/pages/cars/routes';
+import {routesDev} from '@/pages/dev/routes';
+import {routesErrors} from '@/pages/errors/routes';
 
 const routes = [
   ...routesDashboard,
@@ -26,11 +26,11 @@ export const PAGE_TITLE_SUFFIX = `${import.meta.env?.VITE_APP_NAME}`;
 
 router.beforeEach((to, from, next) => {
 
-  const pageTitle = to?.meta?.pageTitle ?? ''
+  const pageTitle = to?.meta?.pageTitle ?? '';
   document.title = pageTitle ? pageTitle + ' - ' + PAGE_TITLE_SUFFIX : PAGE_TITLE_SUFFIX;
 
   if (to.path === '/') {
-    next('/dashboard')
+    next('/dashboard');
   } else {
     next();
   }
@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
   window.scrollTo({
     top: 0,
     left: 0,
-    behavior: "smooth",
+    behavior: 'smooth',
   });
 });
 

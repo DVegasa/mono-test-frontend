@@ -1,4 +1,4 @@
-import {AppException} from "@/exceptions/AppException";
+import {AppException} from '@/exceptions/AppException';
 
 export class ApiException extends AppException {
   constructor({
@@ -20,6 +20,6 @@ export class ApiException extends AppException {
       code: response?.data?.data?.code ?? null,
       message: response?.data?.data?.message ?? null,
       content: response?.data?.data?.content ?? null,
-    })
+    });
   }
 }

@@ -15,7 +15,7 @@
 
 <script setup>
 
-import {computed} from "vue";
+import {computed} from 'vue';
 
 const props = defineProps({
   plate: {
@@ -27,14 +27,14 @@ const props = defineProps({
     type: String,
     default: '14px'
   }
-})
+});
 
 const groups = computed(() => [
   props?.plate?.substring(0, 1),
   props?.plate?.substring(1, 4),
   props?.plate?.substring(4, 6),
   props?.plate?.substring(6, 9),
-])
+]);
 
 </script>
 

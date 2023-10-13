@@ -1,5 +1,5 @@
-import {useApi} from "@/services/useApi";
-import {ref} from "vue";
+import {useApi} from '@/services/useApi';
+import {ref} from 'vue';
 
 export const useParkingRepository = () => {
   const isLoading = ref(false);
@@ -21,5 +21,5 @@ export const useParkingRepository = () => {
         isLoading.value = false;
       }
     }
-  }
-}
+  };
+};

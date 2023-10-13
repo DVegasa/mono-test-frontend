@@ -108,16 +108,16 @@
 
 
 <script setup>
-import {computed, onMounted, reactive, ref, watch} from "vue";
-import {useClientsRepository} from "@/repositories/clients";
-import UiCaptionedValue from "@/components/ui.captionedValue/UiCaptionedValue.vue";
-import {useNotification} from "@/services/useNotifications";
-import {clientValidationRules} from "@/rules/clientValidationRules";
-import CarsList from "@/components/cars.list/CarsList.vue";
-import {useRouter} from "vue-router";
-import {RouterCars} from "@/pages/cars/routes";
-import ErrorBoxApiException from "@/components/errorBox.apiException/ErrorBoxApiException.vue";
-import {RouterClients} from "@/pages/clients/routes";
+import {computed, onMounted, reactive, ref, watch} from 'vue';
+import {useClientsRepository} from '@/repositories/clients';
+import UiCaptionedValue from '@/components/ui.captionedValue/UiCaptionedValue.vue';
+import {useNotification} from '@/services/useNotifications';
+import {clientValidationRules} from '@/rules/clientValidationRules';
+import CarsList from '@/components/cars.list/CarsList.vue';
+import {useRouter} from 'vue-router';
+import {RouterCars} from '@/pages/cars/routes';
+import ErrorBoxApiException from '@/components/errorBox.apiException/ErrorBoxApiException.vue';
+import {RouterClients} from '@/pages/clients/routes';
 
 const props = defineProps({
   clientId: {
@@ -128,14 +128,13 @@ const props = defineProps({
     required: false,
     type: Boolean,
   }
-})
+});
 
 const emit = defineEmits(['deleted', 'updated', 'created']);
 
 const router = useRouter();
 const clientsRepo = useClientsRepository();
 const client = ref(null);
-const cars = ref(null);
 
 const apiException = ref(null);
 
@@ -162,7 +161,7 @@ onMounted(() => {
 watch([props], () => {
   loadClient();
   isEditMode.value = false;
-})
+});
 
 const isEditable = computed(() => {
   return (props?.clientId && isEditMode.value) || (props?.creationMode);
@@ -182,10 +181,10 @@ async function loadClient() {
     client.value = null;
   }
 
-  formData.name = client.value?.name
-  formData.phone = client.value?.phone
-  formData.address = client.value?.address
-  formData.sex = client.value?.sex ?? true
+  formData.name = client.value?.name;
+  formData.phone = client.value?.phone;
+  formData.address = client.value?.address;
+  formData.sex = client.value?.sex ?? true;
 }
 
 async function saveEdit() {
@@ -194,19 +193,19 @@ async function saveEdit() {
       if (!valid) return;
 
       isEditMode.value = false;
-      const res = await clientsRepo.update({
+      await clientsRepo.update({
         id: props?.clientId,
         name: formData.name,
         phone: formData.phone,
         address: formData.address,
         sex: formData.sex,
-      })
+      });
 
       await loadClient();
       useNotification().show({
         type: 'success',
         message: 'Информация обновлена'
-      })
+      });
       emit('updated');
     } catch (e) {
       apiException.value = e;
@@ -220,12 +219,12 @@ async function cancelEdit() {
 }
 
 async function deleteClient() {
-  const res = await clientsRepo.delete({id: props?.clientId});
+  await clientsRepo.delete({id: props?.clientId});
   emit('deleted');
   useNotification().show({
     type: 'success',
     message: 'Клиент удалён'
-  })
+  });
 }
 
 async function createClient() {
@@ -233,7 +232,7 @@ async function createClient() {
     try {
       if (!valid) return;
 
-      const res = await clientsRepo.create({
+      await clientsRepo.create({
         name: formData.name,
         phone: formData.phone,
         address: formData.address,
@@ -248,7 +247,7 @@ async function createClient() {
     } catch (e) {
       apiException.value = e;
     }
-  })
+  });
 }
 
 function carClicked(carId) {

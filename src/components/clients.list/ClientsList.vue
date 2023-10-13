@@ -43,9 +43,9 @@
 
 
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
-import {useClientsRepository} from "@/repositories/clients";
-import ListElementClient from "@/components/listElement.client/ListElementClient.vue";
+import {computed, onMounted, ref, watch} from 'vue';
+import {useClientsRepository} from '@/repositories/clients';
+import ListElementClient from '@/components/listElement.client/ListElementClient.vue';
 
 const clientsRepo = useClientsRepository();
 
@@ -54,15 +54,15 @@ const props = defineProps({
     type: Number,
     required: true,
   }
-})
+});
 
 defineExpose({
   refreshData: async () => {
-    await loadClients()
+    await loadClients();
   }
-})
+});
 
-const emit = defineEmits(['client-clicked'])
+const emit = defineEmits(['client-clicked']);
 
 const curPage = ref(1);
 const pageSize = ref(25);
@@ -74,18 +74,18 @@ const clients = ref([]);
 
 onMounted(() => {
   loadClients();
-})
+});
 
 watch([curPage, pageSize], () => {
   loadClients();
-})
+});
 
 async function loadClients() {
   const res = await clientsRepo.getList({
     currentPage: curPage.value,
     perPage: pageSize.value,
     q: search.value,
-  })
+  });
 
   clients.value = res.data.items;
   totalSize.value = res.data.pagination.total;
@@ -93,7 +93,7 @@ async function loadClients() {
 
 const showSearchButton = computed(() => {
   return search.value.length > 0;
-})
+});
 </script>
 
 

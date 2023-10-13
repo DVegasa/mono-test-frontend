@@ -1,4 +1,4 @@
-import {validators} from "@/rules/validators";
+import {validators} from '@/rules/validators';
 
 export const carValidationRules = {
   brand: [
@@ -54,4 +54,4 @@ export const carValidationRules = {
       message: 'Обязательное поле',
     }
   ]
-}
+};

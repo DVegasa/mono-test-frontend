@@ -20,8 +20,8 @@
 
 
 <script setup>
-import UiPlate from "@/components/ui.plate/UiPlate.vue";
-import {Icon} from "@iconify/vue";
+import UiPlate from '@/components/ui.plate/UiPlate.vue';
+import {Icon} from '@iconify/vue';
 
 const props = defineProps({
   car: {

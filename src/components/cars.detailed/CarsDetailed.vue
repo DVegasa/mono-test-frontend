@@ -98,22 +98,21 @@
 
 
 <script setup>
-import {useClientsRepository} from "@/repositories/clients";
-import {useCarsRepository} from "@/repositories/cars";
-import {computed, onMounted, reactive, ref, watch} from "vue";
-import {clientValidationRules} from "@/rules/clientValidationRules";
-import UiPlate from "@/components/ui.plate/UiPlate.vue";
-import {Icon} from "@iconify/vue";
-import {useParkingRepository} from "@/repositories/parking";
-import ListElementClient from "@/components/listElement.client/ListElementClient.vue";
-import {useRouter} from "vue-router";
-import {RouterClients} from "@/pages/clients/routes";
-import {useNotification} from "@/services/useNotifications";
-import {carValidationRules} from "@/rules/carValidationRules";
-import ClientsPicker from "@/components/clients.picker/ClientsPicker.vue";
-import {normalizePlate} from "@/utils/plates";
-import ErrorBoxApiException from "@/components/errorBox.apiException/ErrorBoxApiException.vue";
-import {RouterCars} from "@/pages/cars/routes";
+import {useClientsRepository} from '@/repositories/clients';
+import {useCarsRepository} from '@/repositories/cars';
+import {computed, onMounted, reactive, ref, watch} from 'vue';
+import UiPlate from '@/components/ui.plate/UiPlate.vue';
+import {Icon} from '@iconify/vue';
+import {useParkingRepository} from '@/repositories/parking';
+import ListElementClient from '@/components/listElement.client/ListElementClient.vue';
+import {useRouter} from 'vue-router';
+import {RouterClients} from '@/pages/clients/routes';
+import {useNotification} from '@/services/useNotifications';
+import {carValidationRules} from '@/rules/carValidationRules';
+import ClientsPicker from '@/components/clients.picker/ClientsPicker.vue';
+import {normalizePlate} from '@/utils/plates';
+import ErrorBoxApiException from '@/components/errorBox.apiException/ErrorBoxApiException.vue';
+import {RouterCars} from '@/pages/cars/routes';
 
 const props = defineProps({
   carId: {
@@ -124,7 +123,7 @@ const props = defineProps({
     required: false,
     type: Boolean,
   }
-})
+});
 
 const emit = defineEmits(['deleted', 'updated', 'created', 'parkSwitched']);
 
@@ -132,15 +131,15 @@ const router = useRouter();
 
 onMounted(() => {
   refreshData();
-})
+});
 
 watch([props], () => {
   refreshData();
   isEditMode.value = false;
-})
+});
 
 const isEditable = computed(() => {
-  return (props?.carId && isEditMode.value) || (props?.creationMode)
+  return (props?.carId && isEditMode.value) || (props?.creationMode);
 });
 
 async function refreshData() {
@@ -186,7 +185,7 @@ async function loadCar() {
   if (props?.carId && !props?.creationMode) {
     try {
       const res = await carsRepo.get({id: props?.carId});
-      car.value = res.data
+      car.value = res.data;
     } catch (e) {
       useNotification().showApiException(e);
       router.push(RouterCars.cars());
@@ -216,7 +215,7 @@ async function loadOwner() {
 
 async function switchParking() {
   if (!car.value) return;
-  const res = await parkingRepo.switchParking({carId: car?.value?.id});
+  await parkingRepo.switchParking({carId: car?.value?.id});
   await refreshData();
   emit('parkSwitched');
 }
@@ -230,7 +229,7 @@ async function saveEdit() {
     try {
       if (!valid) return;
       isEditMode.value = false;
-      const res = await carsRepo.update({
+      await carsRepo.update({
         id: props?.carId,
         brand: formData?.brand,
         model: formData?.model,
@@ -250,7 +249,7 @@ async function saveEdit() {
     } catch (e) {
       apiException.value = e;
     }
-  })
+  });
 }
 
 async function cancelEdit() {
@@ -259,36 +258,36 @@ async function cancelEdit() {
 }
 
 async function deleteCar() {
-  const res = await carsRepo.delete({id: props?.carId});
+  await carsRepo.delete({id: props?.carId});
   emit('deleted');
   useNotification().show({
     type: 'success',
     message: 'Машина удалена',
-  })
+  });
 }
 
 async function createCar() {
   refForm.value?.validate(async (valid) => {
     try {
       if (!valid) return;
-      const res = await carsRepo.create({
+      await carsRepo.create({
         brand: formData?.brand,
         model: formData?.model,
         color: formData?.color,
         plate: formData?.plate,
         isParked: formData?.isParked,
         ownerId: formData?.ownerId,
-      })
+      });
 
       useNotification().show({
         type: 'success',
         message: 'Машина добавлена',
-      })
+      });
       emit('created');
     } catch (e) {
       apiException.value = e;
     }
-  })
+  });
 }
 
 </script>

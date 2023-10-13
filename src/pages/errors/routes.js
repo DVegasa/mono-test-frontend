@@ -1,6 +1,6 @@
 export const routesErrors = [
   {
-    path: "/:pathMatch(.*)*",
-    redirect: "/",
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
   },
 ];

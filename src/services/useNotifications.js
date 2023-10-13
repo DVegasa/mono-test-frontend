@@ -4,7 +4,7 @@ import {ElNotification} from 'element-plus';
 
 const baseProps = {
   offset: 60,
-}
+};
 
 export const useNotification = () => {
   const app = getCurrentInstance();
@@ -13,7 +13,7 @@ export const useNotification = () => {
     props = {
       ...baseProps,
       ...props,
-    }
+    };
     if (!app) ElNotification(props);
     else {
       const {appContext} = app;
@@ -27,7 +27,7 @@ export const useNotification = () => {
       type: 'error',
       message: apiException?.message,
     });
-  }
+  };
 
   return {
     show,

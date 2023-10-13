@@ -1,9 +1,9 @@
-import {ref} from "vue";
-import {useApi} from "@/services/useApi";
-import {apiBoolean} from "@/utils/api";
+import {ref} from 'vue';
+import {useApi} from '@/services/useApi';
+import {apiBoolean} from '@/utils/api';
 
 export const useCarsRepository = () => {
-  const isLoading = ref(false)
+  const isLoading = ref(false);
   const api = useApi();
 
   return {
@@ -53,7 +53,7 @@ export const useCarsRepository = () => {
         isLoading.value = true;
         const res = await api.post('cars/delete', {}, {
           carId: id,
-        })
+        });
         return res.data;
       } finally {
         isLoading.value = false;
@@ -109,5 +109,5 @@ export const useCarsRepository = () => {
         isLoading.value = false;
       }
     }
-  }
-}
+  };
+};

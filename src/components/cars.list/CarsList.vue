@@ -51,10 +51,9 @@
 
 
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
-import ListElementClient from "@/components/listElement.client/ListElementClient.vue";
-import {useCarsRepository} from "@/repositories/cars";
-import ListElementCar from "@/components/listElement.car/ListElementCar.vue";
+import {computed, onMounted, ref, watch} from 'vue';
+import {useCarsRepository} from '@/repositories/cars';
+import ListElementCar from '@/components/listElement.car/ListElementCar.vue';
 
 const carsRepo = useCarsRepository();
 
@@ -67,17 +66,17 @@ const props = defineProps({
     type: Number,
     required: false,
   }
-})
+});
 const _prevOwnerId = ref(null);
 const onlyParked = ref(false);
 
 defineExpose({
   refreshData: async () => {
-    await loadCars()
+    await loadCars();
   }
-})
+});
 
-const emit = defineEmits(['car-clicked'])
+const emit = defineEmits(['car-clicked']);
 
 const curPage = ref(1);
 const pageSize = ref(25);
@@ -89,11 +88,11 @@ const cars = ref([]);
 
 onMounted(() => {
   loadCars();
-})
+});
 
 watch([curPage, pageSize, onlyParked], () => {
   loadCars();
-})
+});
 
 watch([props], () => {
   if (_prevOwnerId.value !== props?.ownerId) {
@@ -102,7 +101,7 @@ watch([props], () => {
     loadCars();
   }
   _prevOwnerId.value = props?.ownerId;
-})
+});
 
 async function loadCars() {
   const res = await carsRepo.getList({
@@ -111,7 +110,7 @@ async function loadCars() {
     q: search.value,
     ownerId: props?.ownerId,
     onlyParked: onlyParked.value,
-  })
+  });
 
   cars.value = res.data.items;
   totalSize.value = res.data.pagination.total;
@@ -119,7 +118,7 @@ async function loadCars() {
 
 const showSearchButton = computed(() => {
   return search.value.length > 0;
-})
+});
 </script>
 
 

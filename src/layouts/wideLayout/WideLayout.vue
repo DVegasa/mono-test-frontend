@@ -11,8 +11,8 @@
 
 
 <script setup>
-import SideMenu from "@/layouts/wideLayout/SideMenu.vue";
-import AppHeader from "@/layouts/wideLayout/AppHeader.vue";
+import SideMenu from '@/layouts/wideLayout/SideMenu.vue';
+import AppHeader from '@/layouts/wideLayout/AppHeader.vue';
 </script>
 
 

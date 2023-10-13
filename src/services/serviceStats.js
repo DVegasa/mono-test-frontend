@@ -1,5 +1,5 @@
-import {reactive} from "vue";
-import {useStatsRepository} from "@/repositories/stats";
+import {reactive} from 'vue';
+import {useStatsRepository} from '@/repositories/stats';
 
 const statsRepo = useStatsRepository();
 
@@ -26,6 +26,6 @@ export const serviceStats = () => {
       await updateStats();
       setTimeout(updateStats, refreshDelayMs);
     }
-  }
+  };
 
-}
+};

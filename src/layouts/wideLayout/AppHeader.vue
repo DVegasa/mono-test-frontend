@@ -23,8 +23,8 @@
 
 
 <script setup>
-import {Icon} from "@iconify/vue";
-import {serviceStats} from "@/services/serviceStats";
+import {Icon} from '@iconify/vue';
+import {serviceStats} from '@/services/serviceStats';
 
 const stats = serviceStats().stats;
 
