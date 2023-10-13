@@ -1,7 +1,6 @@
 <template>
   <div class="ClientsDetailed">
     <div class="info" v-loading="clientsRepo.isLoading.value">
-      <ErrorBoxApiException :exception="apiException" class="exception"/>
 
       <div class="ava">
         <img
@@ -20,6 +19,7 @@
           :rules="formRules"
           ref="refForm"
       >
+        <ErrorBoxApiException :exception="apiException" class="exception"/>
         <div class="top">
           <template v-if="isEditMode">
             <el-button type="primary" @click="saveEdit">Сохранить</el-button>
@@ -191,8 +191,7 @@ async function saveEdit() {
   refForm.value?.validate(async (valid) => {
     try {
       if (!valid) return;
-
-      isEditMode.value = false;
+      apiException.value = null;
       await clientsRepo.update({
         id: props?.clientId,
         name: formData.name,
@@ -201,6 +200,7 @@ async function saveEdit() {
         sex: formData.sex,
       });
 
+      isEditMode.value = false;
       await loadClient();
       useNotification().show({
         type: 'success',
@@ -232,6 +232,7 @@ async function createClient() {
     try {
       if (!valid) return;
 
+      apiException.value = null;
       await clientsRepo.create({
         name: formData.name,
         phone: formData.phone,

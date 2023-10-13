@@ -228,7 +228,7 @@ async function saveEdit() {
   refForm.value?.validate(async (valid) => {
     try {
       if (!valid) return;
-      isEditMode.value = false;
+      apiException.value = null;
       await carsRepo.update({
         id: props?.carId,
         brand: formData?.brand,
@@ -238,7 +238,7 @@ async function saveEdit() {
         isParked: formData?.isParked,
         ownerId: formData?.ownerId,
       });
-
+      isEditMode.value = false;
       await loadCar();
       await loadOwner();
       useNotification().show({
@@ -270,6 +270,7 @@ async function createCar() {
   refForm.value?.validate(async (valid) => {
     try {
       if (!valid) return;
+      apiException.value = null;
       await carsRepo.create({
         brand: formData?.brand,
         model: formData?.model,
